@@ -7,8 +7,9 @@ exports.up = function(knex, Promise) {
     table.dateTime('note_date_time');
     table.string('text');
     table.boolean('is_private').defaultTo(false);
-};
+  });
+}
 
 exports.down = function(knex, Promise) {
   return knex.schema.dropTable('notes');
-};
+}

@@ -7,8 +7,8 @@ exports.up = function(knex, Promise) {
     table.specificType('hashed_password', 'char(60)').notNullable();
     table.integer('timezone');
   });
-};
+}
 
 exports.down = function(knex, Promise) {
   return knex.schema.dropTable('users');
-};
+}
