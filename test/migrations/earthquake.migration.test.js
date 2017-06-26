@@ -5,82 +5,70 @@ process.env.NODE_ENV = 'test';
 const assert = require('chai').assert;
 const { suite, test } = require('mocha');
 const knex = require('../../knex');
-const { addDatabaseHooks } = require('./utils')
+const { addDatabaseHooks } = require('../utils')
 suite('migrations', addDatabaseHooks(() => {
   test('earthquake columns', (done) => {
     knex('earthquakes').columnInfo()
       .then((actual) => {
-        //console.log(actual);
-        // const expected = {
-        //   id: {
-        //     type: 'integer',
-        //     maxLength: null,
-        //     nullable: false,
-        //     defaultValue: 'nextval(\'users_id_seq\'::regclass)'
-        //   },
-        //   date_time: {
-        //     type: 'timestamp with time zone',
-        //     maxLength: null,
-        //     nullable: false,
-        //     defaultValue: 'now()'
-        //   },
-        //   tz_offset: {
-        //     type: 'integer',
-        //     maxLength: null,
-        //     nullable: false,
-        //     defaultValue: null
-        //   },
-        //   last_updated: {
-        //     type: 'timestamp with time zone',
-        //     maxLength: null,
-        //     nullable: false,
-        //     defaultValue: 'now()'
-        //   },
-        //   lat: {
-        //     type: 'character varying',
-        //     maxLength: 255,
-        //     nullable: false,
-        //     defaultValue: '\'\'::character varying'
-        //   },
-        //   long: {
-        //     type: 'character varying',
-        //     maxLength: 255,
-        //     nullable: false,
-        //     defaultValue: '\'\'::character varying'
-        //   },
-        //   depth: {
-        //     type: 'float',
-        //     maxLength: null,
-        //     nullable: false,
-        //     defaultValue: null
-        //   },
-        //   magnitude: {
-        //     type: 'float',
-        //     maxLength: null,
-        //     nullable: false,
-        //     defaultValue: null
-        //   },
-        //   description: {
-        //     type: 'character varying',
-        //     maxLength: 255,
-        //     nullable: false,
-        //     defaultValue: '\'\'::character varying'
-        //   },
-        //   usgs_id: {
-        //     type: 'integer',
-        //     maxLength: null,
-        //     nullable: false,
-        //     defaultValue: null
-        //   }
-        // };
+        const expected = { id:
+           { type: 'integer',
+             maxLength: null,
+             nullable: false,
+             defaultValue: 'nextval(\'earthquakes_id_seq\'::regclass)' },
+          date_time:
+           { type: 'timestamp with time zone',
+             maxLength: null,
+             nullable: true,
+             defaultValue: null },
+          tz_offset:
+           { type: 'integer',
+             maxLength: null,
+             nullable: true,
+             defaultValue: null },
+          last_updated:
+           { type: 'timestamp with time zone',
+             maxLength: null,
+             nullable: true,
+             defaultValue: null },
+          lat:
+           { type: 'character varying',
+             maxLength: 255,
+             nullable: true,
+             defaultValue: null },
+          long:
+           { type: 'character varying',
+             maxLength: 255,
+             nullable: true,
+             defaultValue: null },
+          depth:
+           { type: 'real',
+             maxLength: null,
+             nullable: true,
+             defaultValue: null },
+          magnitude:
+           { type: 'real',
+             maxLength: null,
+             nullable: true,
+             defaultValue: null },
+          description:
+           { type: 'character varying',
+             maxLength: 255,
+             nullable: true,
+             defaultValue: null },
+          usgs_id:
+           { type: 'character varying',
+             maxLength: 255,
+             nullable: true,
+             defaultValue: null }
+        };
 
-        // for (const column in expected) {
-        //   assert.deepEqual(
-        //     actual[column],
-        //     expected[column],
-        //     `Column ${column} is not the same`
-        //   );
-        // }
+        for (const column in expected) {
+          assert.deepEqual(
+            actual[column],
+            expected[column],
+            `Column ${column} is not the same`
+          );
+        }
 
         done();
       })
