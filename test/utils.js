@@ -1,5 +1,5 @@
 'use strict';
-const knex = require('../../knex');
+const knex = require('../knex');
 
 // add knex database hooks to a test suite to tear down and build back
 // up the database on each test in test suite.
