@@ -9,5 +9,4 @@ class Earthquake{
 
 }
 
-
 module.exports = Earthquake;
