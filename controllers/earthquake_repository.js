@@ -7,6 +7,11 @@ class Earthquake{
     return knex('earthquakes').where({ id });
   }
 
+
+  notesById(id){
+    return knex('notes').where({event_id: id});
+  }
+
 }
 
 module.exports = Earthquake;
