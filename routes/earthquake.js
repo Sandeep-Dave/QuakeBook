@@ -33,6 +33,12 @@ const router     = express.Router();
 *  usgs_id: "uw61276557"
 *  }
 *
+* @apiError EventNotFound The earthquake event was not found.
+* @apiErrorExample {json} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*     {
+*       "error": "EventNotFound"
+*     }
 */
 
 router.get('/:id', (req, res) => {
@@ -75,6 +81,12 @@ router.get('/:id', (req, res) => {
 *   text: 'I survived this monster!'
 *   }
 *
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {json} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*     {
+*       "error": "NoteNotFound"
+*     }
 */
 
 router.get('/:id/notes', (req, res) => {
