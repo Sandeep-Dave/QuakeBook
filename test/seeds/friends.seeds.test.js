@@ -9,7 +9,7 @@ const { addDatabaseHooks } = require('../utils')
 
 suite('friends seeds', addDatabaseHooks(() => {
   test('friends values', (done) => {
-    knex('friends').orderBy('id', 'ASC')
+    knex('friends').orderBy('user_from').orderBy('user_to')
       .then((actual) => {
 
         const expected = [

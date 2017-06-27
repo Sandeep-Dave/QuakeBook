@@ -17,21 +17,21 @@ suite('users seeds', addDatabaseHooks(() => {
             id: 1,
             name: 'Joanne Rowling',
             email: 'jkrowling@gmail.com',
-            timnezone: 9,
+            timezone: 9,
             hashed_password: '$2a$12$C9AYYmcLVGYlGoO4vSZTPud9ArJwbGRsJ6TUsNULzR48z8fOnTXbS'
           },
           {
             id: 2,
             name: 'Oskar Fischinger',
             email: 'ofischy@gmail.com',
-            timnezone: -3,
+            timezone: -3,
             hashed_password: '$2a$12$C9AYYmcLVGYlGoO4vSZTPud9ArJwbGRsJ6TUsNULzR48z8fOnTXbS'
           },
           {
             id: 3,
             name: 'Amelia Bedelia',
             email: 'amiabaddy@gmail.com',
-            timnezone: -6,
+            timezone: -6,
             hashed_password: '$2a$12$C9AYYmcLVGYlGoO4vSZTPud9ArJwbGRsJ6TUsNULzR48z8fOnTXbS'
           }
         ];
