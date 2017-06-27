@@ -8,15 +8,10 @@ class Earthquake{
 
 
   notesById(id){
-    return knex('notes').where({event_id: id});
+    return knex('notes').select('event_id', 'id', 'user_id', 'text').where({event_id: id, is_private: false});
   }
 
 }
-
-// var repo = new Earthquake();
-//
-// repo.earthquakeById(1)
-//   .then(console.log);
 
 
 module.exports = Earthquake;

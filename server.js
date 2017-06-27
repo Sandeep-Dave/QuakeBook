@@ -5,8 +5,11 @@ const earthquake  = require('./routes/earthquake');
 const earthquakes = require('./routes/earthquakes');
 const user        = require('./routes/user');
 const profile     = require('./routes/profile');
+const bodyParser  = require('body-parser');
 
 const port = process.env.PORT || 8000;
+
+app.use(bodyParser.json());
 
 app.use('/earthquake', earthquake);
 // app.use('/earthquakes', earthquakes);
