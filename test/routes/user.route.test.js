@@ -4,9 +4,9 @@ process.env.NODE_ENV = 'test';
 
 const { suite, test } = require('mocha');
 const request = require('supertest');
-const knex = require('../knex');
-const server = require('../server');
-const { addDatabaseHooks } = require('./utils');
+const knex = require('../../knex');
+const server = require('../../server');
+const { addDatabaseHooks } = require('../utils');
 
 suite('user routes', addDatabaseHooks(() => {
   test('GET /user/:id', (done) => {
@@ -32,6 +32,6 @@ suite('user routes', addDatabaseHooks(() => {
            event_id: 3,
            note_date_time: '2017-06-23T13:42:24.000Z',
            text: 'I survived this monster!'
-         })
+         }, done);
   });
 }));

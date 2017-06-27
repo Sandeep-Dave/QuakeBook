@@ -2,7 +2,7 @@
 
 const express    = require('express');
 const knex       = require('../knex');
-const User  = require('../controllers/user_repostiory');
+const User  = require('../controllers/user_repository');
 const router     = express.Router();
 
 /**
@@ -41,6 +41,7 @@ router.get('/:id', checkUserLoggedIn, (req, res) => {
         res.sendStatus(404);
         return;
       }
+      res.setHeader('Content-Type', 'application/json');
       res.send(user);
     })
     .catch(err => {
@@ -77,7 +78,8 @@ router.get('/:id/notes', checkUserLoggedIn, (req, res) => {
   let user = new User();
   let id = req.params.id;
 
-  let promiseFromQuery = user.getNotesByUser(id);
+  let promiseFromQuery = user.notesByUser(id);
+  console.log('***');
 
   promiseFromQuery
     .then(notes => {
@@ -85,6 +87,7 @@ router.get('/:id/notes', checkUserLoggedIn, (req, res) => {
         res.sendStatus(404);
         return;
       }
+      res.setHeader('Content-Type', 'application/json');
       res.send(notes);
     })
     .catch(err => {
@@ -98,6 +101,7 @@ function checkUserLoggedIn(req, res, next) {
   } else {
     let userObject = jwt.decode(req.cookies.token);
     let userId = userObject.sub.id;
+    console.log('ID', userId);
     req.userId = userId;
     next();
   }
