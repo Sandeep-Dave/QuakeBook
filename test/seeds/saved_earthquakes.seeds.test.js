@@ -7,9 +7,9 @@ const { suite, test } = require('mocha');
 const knex = require('../../knex');
 const { addDatabaseHooks } = require('../utils')
 
-suite('friends seeds', addDatabaseHooks(() => {
-  test('friends values', (done) => {
-    knex('friends').orderBy('id', 'ASC')
+suite('saved_earthquakes seeds', addDatabaseHooks(() => {
+  test('saved_earthquakes values', (done) => {
+    knex('saved_earthquakes').orderBy('user_id').orderBy('event_id')
       .then((actual) => {
 
         const expected = [
