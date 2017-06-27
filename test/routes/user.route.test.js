@@ -34,5 +34,4 @@ suite('user routes', addDatabaseHooks(() => {
            text: 'I survived this monster!'
          }, done);
   });
-
 }));
