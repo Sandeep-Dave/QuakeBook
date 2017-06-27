@@ -57,17 +57,7 @@ suite('earthquakes seeds', addDatabaseHooks(() => {
             magnitude: 1.1,
             description: '5km NNE of Bainbridge Island, Washington',
             usgs_id: 'uw61276557' }
-          ]
-    // [{
-    //       id: 1,
-    //       first_name: 'Joanne',
-    //       last_name: 'Rowling',
-    //       email: 'jkrowling@gmail.com',
-    //       hashed_password: '$2a$12$C9AYYmcLVGYlGoO4vSZTPud9ArJwbGRsJ6TUsNULzR48z8fOnTXbS',
-    //       created_at: new Date('2016-06-29 14:26:16 UTC'),
-    //       updated_at: new Date('2016-06-29 14:26:16 UTC')
-    //     }]
-        ;
+          ];
 
 
         for (let i = 0; i < expected.length; i++) {

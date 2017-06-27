@@ -2,11 +2,12 @@
 
 const express    = require('express');
 const knex       = require('../knex');
-const Eartquake  = require('../controllers/earthquake_repostiory');
+const Earthquake  = require('../controllers/earthquake_repository');
 const router     = express.Router();
 
 /**
 * @api {get} /earthquake/:id  Request information about a specific earthquake
+* @apiVersion 1.0.0
 * @apiName GetEarthquakeById
 * @apiGroup Earthquake
 *
@@ -51,6 +52,7 @@ router.get('/:id', (req, res) => {
         res.sendStatus(404);
         return;
       }
+      res.setHeader('Content-Type', 'application/json');
       res.send(earthquake);
     })
     .catch(err => {
@@ -60,6 +62,7 @@ router.get('/:id', (req, res) => {
 
 /**
 * @api {get} /earthquake/:id/notes  Request public notes posted about a specific earthquake
+* @apiVersion 1.0.0
 * @apiName GetNotesByEarthquakeId
 * @apiGroup Earthquake
 *
@@ -100,6 +103,7 @@ router.get('/:id/notes', (req, res) => {
         res.sendStatus(404);
         return;
       }
+      res.setHeader('Content-Type', 'application/json');
       res.send(notes);
     })
     .catch(err => {

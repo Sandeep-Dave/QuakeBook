@@ -2,6 +2,10 @@
   "name": "quakebook",
   "version": "1.0.0",
   "description": "Social network for earthquake events!",
+  "apidoc": {
+    "title": "apiDoc for QuakeBook",
+    "url" : "https://api.github.com/v1"
+  },
   "main": "server.js",
   "scripts": {
     "test": "node_modules/mocha/bin/mocha",
@@ -23,6 +27,7 @@
   },
   "homepage": "https://github.com/Sandeep-Dave/QuakeBook#readme",
   "dependencies": {
+    "apidoc": "^0.17.6",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
