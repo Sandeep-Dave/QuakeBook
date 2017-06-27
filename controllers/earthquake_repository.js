@@ -1,6 +1,5 @@
 const knex = require('../knex.js');
 
-
 class Earthquake{
 
   earthquakeById(id){

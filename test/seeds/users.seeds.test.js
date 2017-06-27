@@ -18,25 +18,23 @@ suite('users seeds', addDatabaseHooks(() => {
             name: 'Joanne Rowling',
             email: 'jkrowling@gmail.com',
             timezone: 9,
-            hashed_password: '$2a$12$C9AYYmcLVGYlGoO4vSZTPud9ArJwbGRsJ6TUsNULzR48z8fOnTXbS'
+            hashed_password: '$2a$06$XkiKSpNXYMBCtbOszL.9X.exR3Jxg126.2GFInUvwg9hU9TfWpTlW' //kryptic9passWord
           },
           {
             id: 2,
             name: 'Oskar Fischinger',
             email: 'ofischy@gmail.com',
             timezone: -3,
-            hashed_password: '$2a$12$C9AYYmcLVGYlGoO4vSZTPud9ArJwbGRsJ6TUsNULzR48z8fOnTXbS'
+            hashed_password: '$2a$06$30y0zx7luI7w66xvLmIB.ONoxA1j.hgFGwfbmYA2dP6fXYfVuvnL.' //gr8tsaltLake
           },
           {
             id: 3,
             name: 'Amelia Bedelia',
             email: 'amiabaddy@gmail.com',
             timezone: -6,
-            hashed_password: '$2a$12$C9AYYmcLVGYlGoO4vSZTPud9ArJwbGRsJ6TUsNULzR48z8fOnTXbS'
+            hashed_password: '$2a$06$4H3enWFJZU/urCKjdhkAgOa0Kl777tHzWem6Bt.jjpXxpYc38wMvq' //a9gkor8aT
           }
         ];
-
-
 
         for (let i = 0; i < expected.length; i++) {
           assert.deepEqual(
