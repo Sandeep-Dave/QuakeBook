@@ -27,7 +27,7 @@ exports.seed = function(knex, Promise) {
           },
           {
             user_from: 3,
-            user_to: 1
+            user_to: 2
           }]);
   });
 };
