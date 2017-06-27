@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Sandeep-Dave/QuakeBook#readme",
   "dependencies": {
+    "apidoc": "^0.17.6",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
