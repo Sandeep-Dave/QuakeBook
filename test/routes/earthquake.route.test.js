@@ -4,9 +4,9 @@ process.env.NODE_ENV = 'test';
 
 const { suite, test } = require('mocha');
 const request = require('supertest');
-const knex = require('../knex');
-const server = require('../server');
-const { addDatabaseHooks } = require('./utils');
+const knex = require('../../knex');
+const server = require('../../server');
+const { addDatabaseHooks } = require('../utils');
 
 suite('earthquake routes', addDatabaseHooks(() => {
   test('GET /earthquake/:id', (done) => {
@@ -17,8 +17,8 @@ suite('earthquake routes', addDatabaseHooks(() => {
       .expect(200, {
           id: 4,
           description: "5km NNE of Bainbridge Island, Washington",
-          date_time: '2017-06-23T13:42:24.000Z',
-          last_updated: '2017-06-23T14:42:24.000Z',
+          date_time: '2017-06-23T16:01:39.000Z',
+          last_updated: '2017-06-23T18:42:49.000Z',
           tz_offset: -480,
           magnitude: 1.1,
           long:  '-122.4905',
@@ -39,7 +39,7 @@ suite('earthquake routes', addDatabaseHooks(() => {
            event_id: 3,
            note_date_time: '2017-06-23T13:42:24.000Z',
            text: 'I survived this monster!'
-         })
+         }, done);
   });
 
 }));
