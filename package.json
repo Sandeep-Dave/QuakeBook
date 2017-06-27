@@ -1,0 +1,40 @@
+{
+  "name": "quakebook",
+  "version": "1.0.0",
+  "description": "Social network for earthquake events!",
+  "main": "server.js",
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sandeep-Dave/QuakeBook.git"
+  },
+  "keywords": [
+    "social",
+    "earthquakes"
+  ],
+  "author": "Dave and Sandeep",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sandeep-Dave/QuakeBook/issues"
+  },
+  "homepage": "https://github.com/Sandeep-Dave/QuakeBook#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "knex": "^0.13.0",
+    "pg": "^6.4.0"
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.4.2",
+    "nodemon": "^1.11.0",
+    "supertest": "^3.0.0"
+  }
+}
