@@ -1,6 +1,5 @@
 const knex = require('../knex.js');
 
-
 class Earthquake{
 
   earthquakeById(id){
@@ -13,5 +12,11 @@ class Earthquake{
   }
 
 }
+
+// var repo = new Earthquake();
+//
+// repo.earthquakeById(1)
+//   .then(console.log);
+
 
 module.exports = Earthquake;

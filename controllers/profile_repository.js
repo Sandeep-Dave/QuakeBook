@@ -2,12 +2,12 @@ const knex = require('../knex.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-class Profile = {
+class Profile {
 
   // lookup user by email
 
   getUserName(email){
-  return knex('users').first().where('email', email)
+  return knex('users').select('name','email','id','timezone').first().where('email', email)
 }
 
   // compare password to hashed_password
