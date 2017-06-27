@@ -9,9 +9,10 @@ class Earthquake{
 
 
   notesById(id){
-    return knex('notes').where({event_id: id});
+    return knex('notes').select('event_id', 'id', 'user_id', 'text').where({event_id: id, is_private: false});
   }
 
 }
+
 
 module.exports = Earthquake;

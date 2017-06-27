@@ -1,53 +1,9 @@
 'use strict'
 
 const express    = require('express');
-const knex       = require('../knex');
-const User  = require('../controllers/user_repository');
 const router     = express.Router();
-
-/**
-* @api {get} /user/:id  Request public profile information about a specific user
-* @apiName GetUserById
-* @apiGroup User
-*
-* @apiParam {Number} id           User's unique ID
-*
-* @apiSuccess {String} name       Name of the User.
-* @apiSuccess {String} email      Email of the User.
-* @apiSuccess {Integer} timezone  Timezone of the User.
-*
-* @apiSuccessExample Success-Response:
-*   HTTP/1.1 200 OK
-*   {
-*    "name": 'Joanne Rowling',
-*    "email": 'jkrowling@gmail.com',
-     "timezone": 9
-*    }
-*
-*
-*
-*/
-
-router.get('/:id', checkUserLoggedIn, (req, res) => {
-  let userId = req.userId;
-  let user = new User();
-  let id = req.params.id;
-
-  let promiseFromQuery = user.userById(id);
-
-  promiseFromQuery
-    .then(user => {
-      if(!user) {
-        res.sendStatus(404);
-        return;
-      }
-      res.setHeader('Content-Type', 'application/json');
-      res.send(user);
-    })
-    .catch(err => {
-      res.status(500).send(err);
-    })
-})
+const knex       = require('../knex');
+const User       = require('../controllers/user_repository');
 
 /**
 * @api {get} /user/:id/notes  Request public notes posted by a specific user
@@ -73,13 +29,11 @@ router.get('/:id', checkUserLoggedIn, (req, res) => {
 *   }
 *
 */
-router.get('/:id/notes', checkUserLoggedIn, (req, res) => {
+router.get('/:id/notes', (req, res) => {
   let userId = req.userId;
   let user = new User();
   let id = req.params.id;
-
   let promiseFromQuery = user.notesByUser(id);
-  console.log('***');
 
   promiseFromQuery
     .then(notes => {
@@ -92,8 +46,54 @@ router.get('/:id/notes', checkUserLoggedIn, (req, res) => {
     })
     .catch(err => {
       res.status(500).send(err);
+    });
+});
+
+/**
+* @api {get} /user/:id  Request public profile information about a specific user
+* @apiName GetUserById
+* @apiGroup User
+*
+* @apiParam {Number} id           User's unique ID
+*
+* @apiSuccess {String} name       Name of the User.
+* @apiSuccess {String} email      Email of the User.
+* @apiSuccess {Integer} timezone  Timezone of the User.
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   {
+*    "name": 'Joanne Rowling',
+*    "email": 'jkrowling@gmail.com',
+     "timezone": 9
+*    }
+*
+*
+*
+*/
+
+router.get('/:id', (req, res) => {
+
+  let userId = req.userId;
+  let user = new User();
+  let id = req.params.id;
+  let promiseFromQuery = user.userById(id);
+
+  promiseFromQuery
+    .then(user => {
+      if(!user) {
+        res.sendStatus(404);
+        return;
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.send(user);
+    })
+    .catch(err => {
+      res.status(500).send(err);
     })
 })
+
+
 
 function checkUserLoggedIn(req, res, next) {
   if(!req.cookies.token){
@@ -101,7 +101,6 @@ function checkUserLoggedIn(req, res, next) {
   } else {
     let userObject = jwt.decode(req.cookies.token);
     let userId = userObject.sub.id;
-    console.log('ID', userId);
     req.userId = userId;
     next();
   }
