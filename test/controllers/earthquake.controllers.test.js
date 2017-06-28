@@ -34,32 +34,58 @@ suite('earthquake controllers', addDatabaseHooks(() => {
         .catch((err) => {
           done(err);
         });
-      })
+      });
+
+  test('add earthquake object to database', (done) => {
+    repo.addEarthquake({
+      date_time: new Date('2017-06-28T09:34:32.000Z'),
+      tz_offset: -480,
+      last_updated: new Date('2017-06-28T09:38:05.000Z'),
+      lat: '33.4955',
+      long: '-116.7916667',
+      depth: 4.66,
+      magnitude: 0.48,
+      description: '9km NE of Aguanga, CA',
+      usgs_id: 'ci37920224'
+    })
+      .then((actual) => {
+        const expected = [{
+          id: 5,
+          date_time: new Date('2017-06-28T09:34:32.000Z'),
+          tz_offset: -480,
+          last_updated: new Date('2017-06-28T09:38:05.000Z'),
+          lat: '33.4955',
+          long: '-116.7916667',
+          depth: 4.66,
+          magnitude: 0.48,
+          description: '9km NE of Aguanga, CA',
+          usgs_id: 'ci37920224'
+        }];
+
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('get earthquake notes by event id', (done) => {
+    repo.notesById(3)
+      .then((actual) => {
+        const expected = [{
+          id: 3,
+          user_id: 3,
+          event_id: 3,
+          text: 'I survived this monster!'
+        }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+      });
 
 
-    }));
-
-// 'use strict'
-//
-// const Repo = require('../../controllers/earthquake_repository');
-// const expect = require('chai').expect;
-//
-// var repo = new Repo();
-//
-// describe('earthquake controllers', () => {
-//   describe('get event by id', () => {
-//     it('should be a function', () => {
-//       expect(repo.earthquakeById).to.exist;
-//     });
-//     it('should return an object', () => {
-//       repo.earthquakeById(1)
-//         .then((resolved) => {
-//           return expect(resolved.name).to.be.undefined;
-//           done();
-//         })
-//         .catch(err => err);
-//     });
-//
-//
-//   });
-// });
+}));

@@ -17,7 +17,7 @@ const verifyUser     = require('./helper').verifyUser;
 * @apiSuccess {Integer} id               ID of the note.
 * @apiSuccess {Integer} user_id          ID of the user who wrote the note.
 * @apiSuccess {Integer} event_id         ID of the event the note was about.
-* @apiSuccess {String} note_date_time  Date and time the note was created.
+* @apiSuccess {String} note_date_time    Date and time the note was created.
 * @apiSuccess {String} text              Text of the note.
 *
 * @apiSuccessExample Success-Response:
