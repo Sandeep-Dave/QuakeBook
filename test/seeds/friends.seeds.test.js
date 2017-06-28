@@ -32,10 +32,6 @@ suite('friends seeds', addDatabaseHooks(() => {
           {
             user_from: 3,
             user_to: 1
-          },
-          {
-            user_from: 3,
-            user_to: 2
           }
         ];
 
