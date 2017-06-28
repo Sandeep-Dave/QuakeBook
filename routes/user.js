@@ -4,6 +4,8 @@ const express    = require('express');
 const router     = express.Router();
 const knex       = require('../knex');
 const User       = require('../controllers/user_repository');
+const checkForToken    = require('./helpers').checkForToken;
+const verifyUser     = require('./helper').verifyUser;
 
 /**
 * @api {get} /user/:id/notes  Request public notes posted by a specific user
@@ -28,6 +30,12 @@ const User       = require('../controllers/user_repository');
 *   text: 'I survived this monster!'
 *   }
 *
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {json} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*     {
+*       "error": "NoteNotFound"
+*     }
 */
 router.get('/:id/notes', (req, res) => {
   let userId = req.userId;
@@ -68,6 +76,12 @@ router.get('/:id/notes', (req, res) => {
      "timezone": 9
 *    }
 *
+* @apiError UserNotFound The user was not found.
+* @apiErrorExample {json} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*     {
+*       "error": "UserNotFound"
+*     }
 *
 *
 */
@@ -92,18 +106,5 @@ router.get('/:id', (req, res) => {
       res.status(500).send(err);
     })
 })
-
-
-
-function checkUserLoggedIn(req, res, next) {
-  if(!req.cookies.token){
-    res.sendStatus(401);
-  } else {
-    let userObject = jwt.decode(req.cookies.token);
-    let userId = userObject.sub.id;
-    req.userId = userId;
-    next();
-  }
-}
 
 module.exports = router;

@@ -6,30 +6,26 @@ class Profile {
 
   // lookup user by email
 
-  getUserName(email){
-  return knex('users').select('name','email','id','timezone').first().where('email', email)
+  getUserInfo(id){
+  return knex('users').select('name','email','timezone').first().where({ id })
 }
 
   // compare password to hashed_password
 
   checkPassword(email, password){
-		return knex('users').select('hashed_password').first().where({email})
+    let id;
+		knex('users').select('id','hashed_password').first().where({email})
 		.then(queryResult => {
 			let hashed = queryResult.hashed_password;
+      id = queryResult.id;
 			return bcrypt.compare(password, hashed);
-		})
-	}
+    })
+  }
 
   // insert profile into users database /
 
   addUser(user) {
-    return knex('users').insert(user,'*');
-  }
-
-  // return all public user data from users table
-
-  queryAllUsers() {
-    return knex('users').select('name','email','timezone');
+    return knex('users').insert(user,['name','email','timezone']);
   }
 
   // delete users profile
@@ -38,7 +34,7 @@ class Profile {
     return knex('users')
       .del()
       .where('id', id)
-      .returning('*');
+      .returning(['name','email','timezone']);
   }
 
   // update users profile
@@ -49,39 +45,39 @@ class Profile {
       .update({
         name: user.name,
         email: user.email,
-        timezone: user.timezone}, '*');
+        timezone: user.timezone}, ['name','email','timezone']);
   }
 
   // lookup all saved earthquakes in a user's profile
 
-  querySavedEarthquakes(id){
+  queryEvents(id){
     return knex('saved_earthquakes').where('user_id', id);
   }
 
   // post an event to a users profile
 
-  addEvent(id) {
-    return knex('saved_earthquakes').insert(id,'*');
+  addEvent(id, user_id) {
+    return knex('saved_earthquakes').insert({event_id: id, user_id: user_id},'*');
   }
 
   // delete an event from a users profile
 
-  deleteUser(id) {
+  deleteEvent(event_id, user_id) {
     return knex('saved_earthquakes')
       .del()
-      .where('event_id', id)
+      .where({event_id, user_id})
       .returning('*');
   }
 
   // return all public notes from a users profile
 
-  queryAllNotesByUser() {
-    return knex('notes').where('is_private', false);
+  queryNotesByUser(id) {
+    return knex('notes').where({'is_private':false, user_id: id});
   }
 
   //  post a note to a users profile
 
-  addNote(note) {
+  addNote(note, user_id) {
     return knex('notes').insert(note,'*');
   }
 
@@ -96,14 +92,14 @@ class Profile {
 
   // return a list of friends for a user
 
-  queryAllFriends(id) {
+  queryFriends(id) {
     return knex('friends').where('user_from', id);
   }
 
   // post a friend to a user's friends table
 
   addFriend(user_from, user_to) {
-    return knex('friends').where({ user_from }).insert(user_to,'*');
+    return knex('friends').insert({user_from,user_to},'*');
   }
 
   // delete a friend from a users friend table
@@ -117,20 +113,20 @@ class Profile {
 
   // return a list of poi's for a user
 
-  queryAllPOIs(user_id) {
+  queryPOIs(user_id) {
     return knex('points_of_interest').where({ user_id });
   }
 
   // post a poi for a user_id
 
-  addPOI(user_id, poi) {
-    return knex('points_of_interests').where({ user_id }).insert(poi,'*');
+  addPOI(poi, user_id) {
+    return knex('points_of_interest').where({ user_id }).insert(poi,'*');
   }
 
   // delete a poi for a user
 
-  deletePOI(user_id, id) {
-    return knex('points_of_interests')
+  deletePOI(id, user_id) {
+    return knex('points_of_interest')
       .del()
       .where({ user_id, id })
       .returning('*');

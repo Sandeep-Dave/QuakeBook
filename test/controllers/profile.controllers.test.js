@@ -12,11 +12,10 @@ const profile = new Profile();
 
 suite('profile controllers', addDatabaseHooks(() => {
 
-  test('get user with email', (done) => {
-    profile.getUserName('jkrowling@gmail.com')
+  test('get user info with user id', (done) => {
+    profile.getUserInfo(1)
       .then((actual) => {
         const expected = {
-          id: 1,
           name: 'Joanne Rowling',
           email: 'jkrowling@gmail.com',
           timezone: 9
@@ -29,17 +28,339 @@ suite('profile controllers', addDatabaseHooks(() => {
         });
       })
 
-  test('check user password', (done) => {
+  test('check user password with correct password', (done) => {
     profile.checkPassword('ofischy@gmail.com', 'gr8tsaltLake')
       .then((actual) => {
-        console.log(actual);
-        const expected = true;
+        const expected = 2;
         assert.deepEqual(actual, expected, 'failed');
           done();
         })
       .catch((err) => {
           done(err);
         });
+      });
 
-  });
+  test('check user password with incorrect password', (done) => {
+    profile.checkPassword('ofischy@gmail.com', 'gr8tsalTLake')
+      .then((actual) => {
+        const expected = -1;
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('add user to database', (done) => {
+    profile.addUser({
+      name: 'Ducky Vohname',
+      email: 'kemosaby@gmail.com',
+      timezone: 7,
+      hashed_password: '$2a$06$DUH3ptEDNwoQQw51.XWrD.0/LFxhwk.INeg0brnTZXPJLVfQWh/Da' //mtRushm0Re
+    })
+      .then((actual) => {
+        const expected = [{
+          name: 'Ducky Vohname',
+          email: 'kemosaby@gmail.com',
+          timezone: 7
+        }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('delete a user from the database', (done) => {
+    profile.deleteUser(2)
+      .then((actual) => {
+        const expected =
+          [{
+            name: 'Oskar Fischinger',
+            email: 'ofischy@gmail.com',
+            timezone: -3
+          }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('update a user in the database', (done) => {
+    profile.updateUser(2, {email: 'fishy@gmail.com'})
+      .then((actual) => {
+        const expected =
+          [{
+            name: 'Oskar Fischinger',
+            email: 'fishy@gmail.com',
+            timezone: -3
+          }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('query saved earthquakes table', (done) => {
+    profile.queryEvents(2)
+      .then((actual) => {
+        const expected =
+          [{
+            user_id: 2,
+            event_id: 2
+          },
+          {
+            user_id: 2,
+            event_id: 3
+          }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('add event to a user\'s saved earthquakes table', (done) => {
+    profile.addEvent(1, 2)
+      .then((actual) => {
+        const expected =
+          [{
+            user_id: 2,
+            event_id: 1
+          }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('delete event from a user\'s saved earthquakes table', (done) => {
+    profile.deleteEvent(1, 2)
+      .then((actual) => {
+        const expected =
+          [];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('return all public notes from a user\'s profile', (done) => {
+    profile.queryNotesByUser(1)
+      .then((actual) => {
+        const expected =
+          [{
+          event_id: 1,
+          id: 1,
+          is_private: false,
+          text: "I survived this monster!",
+          user_id: 1
+        }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('post a note to a user\'s profile', (done) => {
+    profile.addNote({
+      event_id: 1,
+      is_private: false,
+      text: 'I was here',
+      user_id: 1
+    }, 1)
+      .then((actual) => {
+        const expected =
+          [{
+          event_id: 1,
+          id: 4,
+          is_private: false,
+          text: "I was here",
+          user_id: 1
+        }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('delete a note from a user\'s profile', (done) => {
+    profile.deleteNote(1)
+      .then((actual) => {
+        console.log(actual);
+        const expected =
+          [{
+          event_id: 1,
+          id: 1,
+          is_private: false,
+          text: "I survived this monster!",
+          user_id: 1
+        }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('return all friends for a particular user', (done) => {
+    profile.queryFriends(1)
+      .then((actual) => {
+        const expected =
+          [{
+            user_from: 1,
+            user_to: 2
+          },
+          {
+            user_from: 1,
+            user_to: 3
+          }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('add a friend to a particular user\'s profile', (done) => {
+    profile.addFriend(3,2)
+      .then((actual) => {
+        const expected =
+          [{
+            user_from: 3,
+            user_to: 2
+          }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('delete a friend from a particular user\'s profile', (done) => {
+    profile.deleteFriend(3,2)
+      .then((actual) => {
+        const expected =
+          [{
+            user_from: 3,
+            user_to: 2
+          }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('return a list of points of interest from a particular user\'s profile', (done) => {
+    profile.queryPOIs(2)
+      .then((actual) => {
+        const expected =
+          [{
+            id: 1,
+            user_id: 2,
+            lat: '47.6686667',
+            long: '-122.4905',
+            is_home: false,
+            label: 'The Eiffel Tower',
+            max_radius: 200 },
+            {
+            id: 2,
+            user_id: 2,
+            lat: '37.86209',
+            long: '-122.29521',
+            is_home: true,
+            label: 'home',
+            max_radius: 150 },
+            {
+            id: 3,
+            user_id: 2,
+            lat: '37.69322',
+            long: '-122.4653',
+            is_home: false,
+            label: 'Mom\'s house',
+            max_radius: 200 }];
+        assert.deepEqual(actual, expected, 'failed');
+          done();
+        })
+      .catch((err) => {
+          done(err);
+        });
+      });
+
+  test('return a list of points of interest from a particular user\'s profile', (done) => {
+  profile.queryPOIs(2)
+    .then((actual) => {
+      const expected =
+        [{
+          id: 1,
+          user_id: 2,
+          lat: '47.6686667',
+          long: '-122.4905',
+          is_home: false,
+          label: 'The Eiffel Tower',
+          max_radius: 200 },
+          {
+          id: 2,
+          user_id: 2,
+          lat: '37.86209',
+          long: '-122.29521',
+          is_home: true,
+          label: 'home',
+          max_radius: 150 },
+          {
+          id: 3,
+          user_id: 2,
+          lat: '37.69322',
+          long: '-122.4653',
+          is_home: false,
+          label: 'Mom\'s house',
+          max_radius: 200 }];
+      assert.deepEqual(actual, expected, 'failed');
+        done();
+      })
+    .catch((err) => {
+        done(err);
+      });
+    });
+
+  test('delete points of interest from a particular user\'s profile', (done) => {
+  profile.deletePOI(1,2)
+    .then((actual) => {
+      const expected =
+        [{
+          id: 1,
+          user_id: 2,
+          lat: '47.6686667',
+          long: '-122.4905',
+          is_home: false,
+          label: 'The Eiffel Tower',
+          max_radius: 200 }];
+      assert.deepEqual(actual, expected, 'failed');
+        done();
+      })
+    .catch((err) => {
+        done(err);
+      });
+    });
+
 }));
