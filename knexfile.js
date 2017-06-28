@@ -3,7 +3,7 @@
 module.exports = {
 
   test: {
-    client: 'postgresql',
+    client: 'pg',
     connection: "postgres://localhost/quakebook_test",
     migrations: {
       directory: `${__dirname}/db/migrations`
@@ -13,7 +13,7 @@ module.exports = {
     }
   },
   development: {
-    client: 'postgresql',
+    client: 'pg',
     connection: "postgres://localhost/quakebook_dev",
     migrations: {
       directory: `${__dirname}/db/migrations`
@@ -23,7 +23,7 @@ module.exports = {
     }
   },
   production: {
-    client: 'postgresql',
+    client: 'pg',
     connection: process.env.DATABASE_URL,
     migrations: {
       directory: `${__dirname}/db/migrations`
