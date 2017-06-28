@@ -1,4 +1,4 @@
-
+const jwt = require('jsonwebtoken')
 
 module.exports = {
   checkForToken: function (req, res, next){

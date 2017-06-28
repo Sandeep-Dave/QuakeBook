@@ -161,7 +161,7 @@ router.put('/', (req, res) => {
     return;
   }
 
-  var event = {date_time: req.body.,
+  var event = {date_time: req.body.date_time,
                tz_offset: req.body.timezone,
                last_updated: req.body.last_updated,
                lat: req.body.lat,
