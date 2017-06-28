@@ -42,7 +42,7 @@ router.post('/login', (req, res) => {
   repo.getHashedPassword(email)
     .then((resolved) => {
       if(resolved === undefined){
-        res.setHeader('Content-Type', 'plain/text');
+        res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
       }
@@ -51,7 +51,7 @@ router.post('/login', (req, res) => {
     })
     .then((isMatched) => {
       if(!isMatched){
-        res.setHeader('Content-Type', 'plain/text');
+        res.setHeader('Content-Type', 'text/plain');
         res.status(403).send(`Not Authorized`);
         return;
       }
@@ -70,13 +70,12 @@ router.post('/login', (req, res) => {
       res.send('Success');
     })
     .catch(err => {
-      res.setHeader('Content-Type', 'plain/text');
+      res.setHeader('Content-Type', 'text/plain');
       res.status(404).send(err);
       return;
     });
 
 });
-
 
 /**
 * @api {get} /profile   Get authenticated user's profile information
@@ -111,7 +110,7 @@ router.get('/', checkForToken, verifyUser, (req, res) => {
   repo.getUserInfo(decoded.sub.user_id)
     .then((userInfo) => {
       if(userInfo === undefined){
-        res.setHeader('Content-Type', 'plain/text');
+        res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`User Not Found`);
         return;
       }
@@ -152,7 +151,7 @@ router.put('/', (req, res) => {
   const repo = new ProfileRepo();
 
   if(!req.body || !req.body.name || !req.body.email || !req.body.password || !req.body.timezone){
-    res.setHeader('Content-Type', 'plain/text');
+    res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid User Information`);
     return;
   }
@@ -168,11 +167,14 @@ router.put('/', (req, res) => {
   })
   .then((addedUserId) => {
     if(addedUserId < 0){
-      res.setHeader('Content-Type', 'plain/text');
+      res.setHeader('Content-Type', 'text/plain');
       res.status(400).send(`Invalid User Information`);
       return;
     }
     res.send(addedUserId);
+  })
+  .catch(err => {
+    throw err;
   });
 });
 
@@ -207,7 +209,7 @@ router.put('/', (req, res) => {
 router.post('/', checkForToken, verifyUser, (req, res) => {
 
   if(!req.body || (!req.body.name && !req.body.email && !req.body.timzone && !req.body.password)){
-    res.setHeader('Content-Type', 'plain/text');
+    res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid User Information`);
     return;
   }
@@ -239,11 +241,14 @@ router.post('/', checkForToken, verifyUser, (req, res) => {
     })
     .then((updatedUser) => {
       if(updatedUser === undefined){
-        res.setHeader('Content-Type', 'plain/text');
+        res.setHeader('Content-Type', 'text/plain');
         res.status(400).send(`Invalid User Information`);
         return;
       }
       res.send(updatedUser);
+    })
+    .catch(err => {
+      throw err;
     });
 });
 
@@ -282,11 +287,14 @@ router.delete('/', checkForToken, verifyUser, (req, res) => {
   repo.deleteUser(decoded.sub.user_id)
     .then((deletedUser) => {
       if(deletedUser === undefined){
-        res.setHeader('Content-Type', 'plain/text');
+        res.setHeader('Content-Type', 'text/plain');
         res.status(400).send(`Invalid User Information`);
         return;
       }
       res.send(deletedUser);
+    })
+    .catch(err => {
+      throw err;
     });
 
 });
@@ -334,17 +342,34 @@ router.delete('/', checkForToken, verifyUser, (req, res) => {
 *     }
 */
 router.get('/earthquakes', checkForToken, verifyUser, (req, res) => {
-  
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+
+  repo.queryEvents(decoded.sub.user_id)
+    .then((returnedEvents) => {
+      if(returnedEvents === undefined || returnedEvents.length < 0){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(400).send(`Invalid User Information`);
+        return;
+      }
+
+      res.send(returnedEvents);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
-* @api {put} /profile/earthquakes
+* @api {put} /profile/earthquakes  Add existing event to profile's saved list
 * @apiName SaveProfileEarthquake
 * @apiGroup Profile
 *
-* @apiParam {Number} id                  User's unique ID
+* @apiParam {Number} user_id          User's unique ID from token
+* @apiParam {Number} event_id         Earthquake event's unique ID
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Number} user_id          User's ID
+* @apiSuccess {Number} event_id         Earthquake event's id
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
@@ -359,8 +384,22 @@ router.get('/earthquakes', checkForToken, verifyUser, (req, res) => {
 *       "error": "NoteNotFound"
 *     }
 */
-router.put('/earthquakes', checkForToken, verifyUser, (req, res) => {
+router.put('/earthquakes/:id', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
+  repo.addEvent(req.params.id, decoded.sub.user_id)
+    .then((returned) => {
+      if(returned === undefined){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(400).send(`Invalid User Information`);
+        return;
+      }
+      res.send(returned);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
@@ -386,7 +425,21 @@ router.put('/earthquakes', checkForToken, verifyUser, (req, res) => {
 *     }
 */
 router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
+  repo.deleteEvent(req.params.id, decoded.sub.user_id)
+    .then((returned) => {
+      if(returned === undefined){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(404).send(`Not Found`);
+        return;
+      }
+      res.send(returned);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
@@ -412,22 +465,45 @@ router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
 *     }
 */
 router.get('/notes', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
+  repo.queryNotesByUser(decoded.sub.user_id)
+    .then((returnedNotes) => {
+      if(returnedNotes === undefined || returnedNotes.length < 0){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(400).send(`Invalid User Information`);
+        return;
+      }
+
+      res.send(returnedNotes);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
-* @api {put} /profile/notes
+* @api {put} /profile/notes   Create new note.
 * @apiName NewProfileNote
 * @apiGroup Profile
 *
-* @apiParam {Number} id                  User's unique ID
+* @apiParam {Number} user_id    User's unique ID
+* @apiParam {Number} event_id   ID for earthquake event to which this note is attached
+* @apiParam {String} text       Note text
+* @apiParam {Boolean} is_private  Whether note is public or private
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Integer} id      ID of the note.
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
 *   {
-*
+*     id: 14,
+*     user_id: 8,
+*     event_id: 4,
+*     note_date_time: '2017-06-27 17:18:28.506846-07',
+*     text: 'I survived this monster!',
+*     is_private: false
 *   }
 *
 * @apiError NoteNotFound The note was not found.
@@ -438,33 +514,32 @@ router.get('/notes', checkForToken, verifyUser, (req, res) => {
 *     }
 */
 router.put('/notes', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
-});
+  if(!req.body || !req.body.event_id || !req.body.text || !req.body.is_private){
+    res.setHeader('Content-Type', 'text/plain');
+    res.status(400).send(`Invalid Note Values`);
+    return;
+  }
 
-/**
-* @api {post} /profile/notes
-* @apiName UpdateProfileNote
-* @apiGroup Profile
-*
-* @apiParam {Number} id                  User's unique ID
-*
-* @apiSuccess {Integer} id               ID of the note.
-*
-* @apiSuccessExample Success-Response:
-*   HTTP/1.1 200 OK
-*   {
-*
-*   }
-*
-* @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
-*/
-router.post('/notes/:id', checkForToken, verifyUser, (req, res) => {
+  var note = {event_id: req.body.event_id,
+              text: req.body.text,
+              is_private: req.body.is_private};
 
+  repo.addEvent(note, decoded.sub.user_id)
+    .then((returned) => {
+      if(returned === undefined){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(400).send(`Invalid Note Values`);
+        return;
+      }
+
+      res.send(returned);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
@@ -490,7 +565,21 @@ router.post('/notes/:id', checkForToken, verifyUser, (req, res) => {
 *     }
 */
 router.delete('/notes/:id', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
+  repo.deleteNote(req.params.id)
+    .then((returned) => {
+      if(returned === undefined){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(404).send(`Not Found`);
+        return;
+      }
+      res.send(returned);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
@@ -516,7 +605,22 @@ router.delete('/notes/:id', checkForToken, verifyUser, (req, res) => {
 *     }
 */
 router.get('/friends', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
+  repo.queryFriends(decoded.sub.user_id)
+    .then((returnedFriends) => {
+      if(returnedFriends === undefined || returnedFriends.length < 0){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(400).send(`Invalid User Information`);
+        return;
+      }
+
+      res.send(returnedFriends);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
@@ -542,7 +646,21 @@ router.get('/friends', checkForToken, verifyUser, (req, res) => {
 *     }
 */
 router.put('/friends/:id', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
+  repo.addFriend(decoded.sub.user_id, req.params.id)
+    .then((returned) => {
+      if(returned === undefined){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(400).send(`Invalid User Information`);
+        return;
+      }
+      res.send(returned);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
@@ -568,7 +686,21 @@ router.put('/friends/:id', checkForToken, verifyUser, (req, res) => {
 *     }
 */
 router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
+  repo.deleteFriend(decoded.sub.user_id, req.params.id)
+    .then((returned) => {
+      if(returned === undefined){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(404).send(`Not Found`);
+        return;
+      }
+      res.send(returned);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
@@ -594,7 +726,22 @@ router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
 *     }
 */
 router.get('/poi', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
+  repo.queryPOIs(decoded.sub.user_id)
+    .then((returnedPOIs) => {
+      if(returnedPOIs === undefined || returnedPOIs.length < 0){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(400).send(`Invalid User Information`);
+        return;
+      }
+
+      res.send(returnedPOIs);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
@@ -602,7 +749,12 @@ router.get('/poi', checkForToken, verifyUser, (req, res) => {
 * @apiName NewProfilePOI
 * @apiGroup Profile
 *
-* @apiParam {Number} id                  User's unique ID
+* @apiParam {Number} user_id           User's unique ID
+* @apiParam {String} lat               location's latitude
+* @apiParam {String} long              location's longitude
+* @apiParam {Boolean} is_home          Whether location is user's home loc
+* @apiParam {String} label             Description of location
+* @apiParam {Number} max_radius        Search radius (km)
 *
 * @apiSuccess {Integer} id               ID of the note.
 *
@@ -620,7 +772,34 @@ router.get('/poi', checkForToken, verifyUser, (req, res) => {
 *     }
 */
 router.put('/poi', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
+  if(!req.body || !req.body.lat || !req.body.long || !req.body.is_home || !req.body.label || !req.body.max_radius){
+    res.setHeader('Content-Type', 'text/plain');
+    res.status(400).send(`Invalid POI Values`);
+    return;
+  }
+
+  var poi = {lat: req.body.lat,
+             long: req.body.long,
+             is_home: req.body.is_home,
+             label: req.body.label,
+             max_radius: req.body.max_radius};
+
+  repo.addPOI(poi, decoded.sub.user_id)
+    .then((returned) => {
+      if(returned === undefined){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(400).send(`Invalid Note Values`);
+        return;
+      }
+
+      res.send(returned);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
@@ -646,7 +825,21 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
 *     }
 */
 router.delete('/poi/:id', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
+  repo.deletePOI(req.params.id)
+    .then((returned) => {
+      if(returned === undefined){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(404).send(`Not Found`);
+        return;
+      }
+      res.send(returned);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 
