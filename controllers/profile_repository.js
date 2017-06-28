@@ -8,24 +8,18 @@ class Profile {
 
   getUserInfo(id){
   return knex('users').select('name','email','timezone').first().where({ id })
-}
+  }
 
-  // compare password to hashed_password
+  // return password by email
 
-  checkPassword(email, password){
-    let id;
-		knex('users').select('id','hashed_password').first().where({email})
-		.then(queryResult => {
-			let hashed = queryResult.hashed_password;
-      id = queryResult.id;
-			return bcrypt.compare(password, hashed);
-    })
+  getHashedPassword(email) {
+    return knex('users').select('id','hashed_password').where({ email })
   }
 
   // insert profile into users database /
 
   addUser(user) {
-    return knex('users').insert(user,['name','email','timezone']);
+    return knex('users').insert(user,['id']);
   }
 
   // delete users profile
@@ -45,7 +39,8 @@ class Profile {
       .update({
         name: user.name,
         email: user.email,
-        timezone: user.timezone}, ['name','email','timezone']);
+        timezone: user.timezone,
+        hashed_password: user.hashed_password}, ['name','email','timezone']);
   }
 
   // lookup all saved earthquakes in a user's profile
