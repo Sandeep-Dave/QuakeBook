@@ -28,30 +28,6 @@ suite('profile controllers', addDatabaseHooks(() => {
         });
       })
 
-  test('check user password with correct password', (done) => {
-    profile.checkPassword('ofischy@gmail.com', 'gr8tsaltLake')
-      .then((actual) => {
-        const expected = 2;
-        assert.deepEqual(actual, expected, 'failed');
-          done();
-        })
-      .catch((err) => {
-          done(err);
-        });
-      });
-
-  test('check user password with incorrect password', (done) => {
-    profile.checkPassword('ofischy@gmail.com', 'gr8tsalTLake')
-      .then((actual) => {
-        const expected = -1;
-        assert.deepEqual(actual, expected, 'failed');
-          done();
-        })
-      .catch((err) => {
-          done(err);
-        });
-      });
-
   test('add user to database', (done) => {
     profile.addUser({
       name: 'Ducky Vohname',
@@ -61,9 +37,7 @@ suite('profile controllers', addDatabaseHooks(() => {
     })
       .then((actual) => {
         const expected = [{
-          name: 'Ducky Vohname',
-          email: 'kemosaby@gmail.com',
-          timezone: 7
+          id: 4
         }];
         assert.deepEqual(actual, expected, 'failed');
           done();
@@ -167,6 +141,7 @@ suite('profile controllers', addDatabaseHooks(() => {
           text: "I survived this monster!",
           user_id: 1
         }];
+        delete actual[0].note_date_time;
         assert.deepEqual(actual, expected, 'failed');
           done();
         })
@@ -180,7 +155,6 @@ suite('profile controllers', addDatabaseHooks(() => {
       event_id: 1,
       is_private: false,
       text: 'I was here',
-      user_id: 1
     }, 1)
       .then((actual) => {
         const expected =
@@ -191,6 +165,7 @@ suite('profile controllers', addDatabaseHooks(() => {
           text: "I was here",
           user_id: 1
         }];
+        delete actual[0].note_date_time;
         assert.deepEqual(actual, expected, 'failed');
           done();
         })
@@ -202,7 +177,6 @@ suite('profile controllers', addDatabaseHooks(() => {
   test('delete a note from a user\'s profile', (done) => {
     profile.deleteNote(1)
       .then((actual) => {
-        console.log(actual);
         const expected =
           [{
           event_id: 1,
@@ -211,6 +185,7 @@ suite('profile controllers', addDatabaseHooks(() => {
           text: "I survived this monster!",
           user_id: 1
         }];
+        delete actual[0].note_date_time;
         assert.deepEqual(actual, expected, 'failed');
           done();
         })
@@ -307,33 +282,22 @@ suite('profile controllers', addDatabaseHooks(() => {
         });
       });
 
-  test('return a list of points of interest from a particular user\'s profile', (done) => {
-  profile.queryPOIs(2)
+  test('add a point of interest to a particular user\'s profile', (done) => {
+  profile.addPOI({
+    lat: '48.8584',
+    long: '12.25905',
+    is_home: false,
+    label: 'Leaning Tower of Pisa',
+    max_radius: 200 }, 2)
     .then((actual) => {
       const expected =
         [{
-          id: 1,
+          id: 8,
           user_id: 2,
-          lat: '47.6686667',
-          long: '-122.4905',
+          lat: '48.8584',
+          long: '12.25905',
           is_home: false,
-          label: 'The Eiffel Tower',
-          max_radius: 200 },
-          {
-          id: 2,
-          user_id: 2,
-          lat: '37.86209',
-          long: '-122.29521',
-          is_home: true,
-          label: 'home',
-          max_radius: 150 },
-          {
-          id: 3,
-          user_id: 2,
-          lat: '37.69322',
-          long: '-122.4653',
-          is_home: false,
-          label: 'Mom\'s house',
+          label: 'Leaning Tower of Pisa',
           max_radius: 200 }];
       assert.deepEqual(actual, expected, 'failed');
         done();

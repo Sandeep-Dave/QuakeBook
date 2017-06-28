@@ -73,6 +73,7 @@ class Profile {
   //  post a note to a users profile
 
   addNote(note, user_id) {
+    note.user_id = user_id;
     return knex('notes').insert(note,'*');
   }
 
@@ -115,15 +116,16 @@ class Profile {
   // post a poi for a user_id
 
   addPOI(poi, user_id) {
-    return knex('points_of_interest').where({ user_id }).insert(poi,'*');
+    poi.user_id = user_id;
+    return knex('points_of_interest').insert(poi,'*');
   }
 
   // delete a poi for a user
 
-  deletePOI(id, user_id) {
+  deletePOI(id) {
     return knex('points_of_interest')
       .del()
-      .where({ user_id, id })
+      .where({ id })
       .returning('*');
   }
 
