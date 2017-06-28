@@ -2,56 +2,22 @@
 
 const express       = require('express');
 const router        = express.Router();
+const jwt           = require('jsonwebtoken');
+const env           = require('dotenv');
 const checkForToken = require('./helpers').checkForToken;
 const verifyUser    = require('./helpers').verifyUser;
-const jwt           = require('jsonwebtoken');
 const ProfileRepo   = require('../controllers/profile_repository');
 
 
-router.post('/login', checkForToken, verifyUser, (req, res, next) => {
-  const repo    = new ProfileRepo();
-  var username = req.body.username;
-  var password = req.body.password;
-
-  repo.login(decoded.sub.user_id)//TODO verify function sig
-    .then((userInfo) => {
-      res.send(userInfo);
-      return;
-    })
-    .catch(err => {
-      res.status(404).send(err);
-      return;
-    })
-});
-
-
-router.get('/', checkForToken, verifyUser, (req, res, next) => {
-  const repo    = new ProfileRepo();
-  const decoded = jwt.decode(req.cookies.token);
-
-  repo.query(decoded.sub.user_id)//TODO verify function sig
-    .then((userInfo) => {
-      res.send(userInfo);
-      return;
-    })
-    .catch(err => {
-      res.status(404).send(err);
-      return;
-    })
-});
-
-
-
-
-
 /**
-* @api {post} /profile/login
+* @api {post} /profile/login  Authenticate existing user to the site.
 * @apiName UserLogin
 * @apiGroup Profile
 *
-* @apiParam {Number} id                  User's unique ID
+* @apiParam {String} email              User's email
+* @apiParam {String} password           User's password
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Integer} id              ID of the note.
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
@@ -67,60 +33,117 @@ router.get('/', checkForToken, verifyUser, (req, res, next) => {
 *     }
 */
 router.post('/login', (req, res) => {
+  const repo      = new ProfileRepo();
+  const email     = req.body.email;
+  const password  = req.body.password;
+
+  repo.checkPassword(email, password)
+    .then((verified) => {
+
+      if(verified < 0){
+        res.setHeader('Content-Type', 'plain/text');
+        res.status(404).send(`Not Found`);
+        return;
+      }
+
+      let payload = {
+  	    iss: 'jwt_lesson_app',
+  	    sub: {
+  	      user_id: verified;
+  	    },
+  	    exp: Math.floor(Date.now() / 1000) + (60 * 60),
+  	  };
+
+      let token = jwt.sign(payload, process.env.JWT_KEY);
+
+      res.cookie('token', token, {httpOnly: true });
+
+      res.send('Success');
+    })
+    .catch(err => {
+      res.setHeader('Content-Type', 'plain/text');
+      res.status(404).send(err);
+      return;
+    });
 
 });
 
 
 /**
-* @api {get} /profile
+* @api {get} /profile   Get authenticated user's profile information
 * @apiName GetProfile
 * @apiGroup Profile
 *
-* @apiParam {Number} id                  User's unique ID
+* @apiParam {Number} id                  User's unique ID from token
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {String} name              User's name
+* @apiSuccess {String} email             User's email (account name)
+* @apiSuccess {Integer} timezone         Integer offset for user's timezone
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
 *   {
-*
+*     name: Oskar Fischinger,
+      email: ofischy@gmail.com,
+      timezone: 9
 *   }
 *
 * @apiError NoteNotFound The note was not found.
 * @apiErrorExample {json} Not Found Error:
 *     HTTP/1.1 404 Not Found
 *     {
-*       "error": "NoteNotFound"
+*       "error": "UserNotFound"
 *     }
 */
-router.get('/', (req, res) => {
+router.get('/', checkForToken, verifyUser, (req, res) => {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
 
+  repo.getUserInfo(decoded.sub.user_id)
+    .then((userInfo) => {
+      if(userInfo === undefined){
+        res.setHeader('Content-Type', 'plain/text');
+        res.status(404).send(`User Not Found`);
+        return;
+      }
+      res.send(userInfo);
+    })
+    .catch(err => {
+      throw err;
+    });
 });
 
 /**
-* @api {put} /profile
+* @api {put} /profile   Create new user profile
 * @apiName NewProfile
 * @apiGroup Profile
 *
-* @apiParam {Number} id                  User's unique ID
+* @apiParam {String} name                  User's name
+* @apiParam {String} email                 User's unique email address
+* @apiParam {String} password              User's password
+* @apiParam {Number} timezone              User's timezone
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Integer} id               New user's ID
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
 *   {
-*
+*     id: 55,
+      name: John Doe,
+      email: jdoe@domain.com,
+      timezone = -3
 *   }
 *
-* @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
+* @apiError NotValid The supplied user info was not valid.
+* @apiErrorExample {json} Not Valid Error:
+*     HTTP/1.1 400 Invalid Info
 *     {
-*       "error": "NoteNotFound"
+*       "error": "Invalid information"
 *     }
 */
 router.put('/', (req, res) => {
 
+  
 });
 
 /**
@@ -512,7 +535,6 @@ router.put('/poi', (req, res) => {
 router.delete('/poi/:id', (req, res) => {
 
 });
-
 
 
 
