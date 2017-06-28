@@ -9,7 +9,6 @@ const checkForToken = require('./helpers').checkForToken;
 const verifyUser    = require('./helpers').verifyUser;
 const ProfileRepo   = require('../controllers/profile_repository');
 
-
 /**
 * @api {post} /profile/login  Authenticate existing user to the site.
 * @apiName UserLogin
@@ -38,6 +37,7 @@ router.post('/login', (req, res) => {
   const email     = req.body.email;
   const password  = req.body.password;
   var user_id;
+  // console.log(email);
 
   repo.getHashedPassword(email)
     .then((resolved) => {
@@ -50,6 +50,7 @@ router.post('/login', (req, res) => {
       return bcrypt.compare(password, resolved.hashed_password);
     })
     .then((isMatched) => {
+
       if(!isMatched){
         res.setHeader('Content-Type', 'text/plain');
         res.status(403).send(`Not Authorized`);
@@ -58,7 +59,7 @@ router.post('/login', (req, res) => {
       let payload = {
   	    iss: 'jwt_lesson_app',
   	    sub: {
-  	      user_id: verified;
+  	      user_id: user_id
   	    },
   	    exp: Math.floor(Date.now() / 1000) + (60 * 60),
   	  };
@@ -66,8 +67,9 @@ router.post('/login', (req, res) => {
       let token = jwt.sign(payload, process.env.JWT_KEY);
 
       res.cookie('token', token, {httpOnly: true });
-
-      res.send('Success');
+      res.setHeader('Content-Type', 'application/json');
+      res.send(true);
+      return;
     })
     .catch(err => {
       res.setHeader('Content-Type', 'text/plain');
@@ -105,6 +107,7 @@ router.post('/login', (req, res) => {
 */
 router.get('/', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
+  // console.log('****',req.cookies);
   const decoded = jwt.decode(req.cookies.token);
 
   repo.getUserInfo(decoded.sub.user_id)
@@ -114,6 +117,7 @@ router.get('/', checkForToken, verifyUser, (req, res) => {
         res.status(404).send(`User Not Found`);
         return;
       }
+      res.setHeader('Content-Type', 'application/json');
       res.send(userInfo);
     })
     .catch(err => {

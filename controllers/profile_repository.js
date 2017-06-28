@@ -13,13 +13,14 @@ class Profile {
   // return password by email
 
   getHashedPassword(email) {
-    return knex('users').select('id','hashed_password').where({ email })
+    // console.log(email);
+    return knex('users').select('id','hashed_password').where({ email }).first()
   }
 
   // insert profile into users database /
 
   addUser(user) {
-    return knex('users').insert(user,['id']);
+    return knex('users').insert(user, ['id'])
   }
 
   // delete users profile

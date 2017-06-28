@@ -4,8 +4,8 @@ const express    = require('express');
 const router     = express.Router();
 const knex       = require('../knex');
 const User       = require('../controllers/user_repository');
-const checkForToken    = require('./helpers').checkForToken;
-const verifyUser     = require('./helper').verifyUser;
+// const checkForToken    = require('./helpers').checkForToken;
+// const verifyUser     = require('./helpers').verifyUser;
 
 /**
 * @api {get} /user/:id/notes  Request public notes posted by a specific user
