@@ -1,18 +1,25 @@
-const express = require('express');
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
+const express     = require('express');
 const app         = express();
+const bodyParser  = require('body-parser');
 const earthquake  = require('./routes/earthquake');
 const earthquakes = require('./routes/earthquakes');
 const user        = require('./routes/user');
 const profile     = require('./routes/profile');
+const cookieParser  = require('cookie-parser');
 
 const port = process.env.PORT || 8000;
 
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use('/earthquake', earthquake);
-app.use('/earthquakes', earthquake);
-app.use('/user', earthquake);
-app.use('/profile', earthquake);
+app.use('/earthquakes', earthquakes);
+app.use('/user', user);
+app.use('/profile', profile);
 
 app.use('*', (req, res) => {
   res.sendStatus(404);
