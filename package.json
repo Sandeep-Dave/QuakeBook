@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Social network for earthquake events!",
   "apidoc": {
-    "title": "apiDoc for QuakeBook",
-    "url": "https://api.github.com/v1"
+    "title": "apidoc for QuakeBook",
+    "url": "localhost:8000"
   },
   "main": "server.js",
   "scripts": {

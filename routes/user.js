@@ -45,7 +45,7 @@ router.get('/:id/notes', (req, res) => {
 
   promiseFromQuery
     .then(notes => {
-      if (!notes) {
+      if (!notes || notes.length === 0) {
         res.sendStatus(404);
         return;
       }
