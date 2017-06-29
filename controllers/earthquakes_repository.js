@@ -6,7 +6,7 @@ class EarthquakesRepository{
 
   queryEarthquakeById(id){
     let event = {};
-    fetch(URL+'eventid='+id)
+     return fetch(URL+'eventid='+id)
       .then((results) => {
         return results.json();
       })
@@ -17,6 +17,7 @@ class EarthquakesRepository{
 
   queryEarthquakesByParameters(parameters) {
     let queryString = '';
+
 
     for (let key of Object.keys(parameters)) {
       queryString += `${key}=${parameters[key]}&`

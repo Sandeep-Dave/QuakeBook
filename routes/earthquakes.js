@@ -49,13 +49,13 @@ const router  = express.Router();
 
 router.get('/:id', (req, res) => {
   let repo = new Repo();
-
   repo.queryEarthquakeById(req.params.id)
     .then(result => {
       let event = shapeData(result)
       res.send(event);
     })
     .catch(err => {
+      console.log(err);
       res.status(404).send(err);
     })
 })
@@ -120,20 +120,32 @@ router.get('/', (req, res) => {
   }
 
   let finalResults = [];
+
   repo.queryEarthquakesByParameters(parameters)
     .then((results) => {
       return results.json();
     })
-    .then((results) => {
-      for (let quake of results.features) {
-        finalResults.push(shapeData(quake));
-      }
-      res.send(finalResults);
-    })
+    .then(console.log);
+    // .catch(err => {
+    //   console.log('***********88888888');
+    //   res.status(500).send(err);
+    // })
+    // .then(console.log);
+    // .then((results) => {
+    //   console.log('^^^^^^^^',results.json());
+    //   for (let quake of results.features) {
+    //     finalResults.push(shapeData(quake));
+    //   }
+    //   res.send(finalResults);
+    // })
+    // .catch(err => {
+    // })
 
 })
 
-function shapeData (rawData) {
+function shapeData(rawData) {
+
+  // console.log('**77****',rawData.properties);
 
   let event = {};
 
