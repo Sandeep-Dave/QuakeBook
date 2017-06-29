@@ -295,6 +295,7 @@ router.delete('/', checkForToken, verifyUser, (req, res) => {
         res.status(400).send(`Invalid User Information`);
         return;
       }
+      res.cookie('token', '', {httpOnly: true });
       res.send(deletedUser);
     })
     .catch(err => {
@@ -431,6 +432,7 @@ router.put('/earthquakes/:id', checkForToken, verifyUser, (req, res) => {
 router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
   const decoded = jwt.decode(req.cookies.token);
+  const token = req.cookies.token;
 
   repo.deleteEvent(req.params.id, decoded.sub.user_id)
     .then((returned) => {
@@ -439,6 +441,7 @@ router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
         res.status(404).send(`Not Found`);
         return;
       }
+      res.cookie('token', token, {httpOnly: true });
       res.send(returned);
     })
     .catch(err => {
@@ -571,6 +574,8 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
 router.delete('/notes/:id', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
   const decoded = jwt.decode(req.cookies.token);
+  const token = req.cookies.token;
+
 
   repo.deleteNote(req.params.id)
     .then((returned) => {
@@ -579,6 +584,7 @@ router.delete('/notes/:id', checkForToken, verifyUser, (req, res) => {
         res.status(404).send(`Not Found`);
         return;
       }
+      res.cookie('token', token, {httpOnly: true });
       res.send(returned);
     })
     .catch(err => {
@@ -692,6 +698,8 @@ router.put('/friends/:id', checkForToken, verifyUser, (req, res) => {
 router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
   const decoded = jwt.decode(req.cookies.token);
+  const token = req.cookies.token;
+
 
   repo.deleteFriend(decoded.sub.user_id, req.params.id)
     .then((returned) => {
@@ -700,6 +708,7 @@ router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
         res.status(404).send(`Not Found`);
         return;
       }
+      res.cookie('token', token, {httpOnly: true });
       res.send(returned);
     })
     .catch(err => {
@@ -831,6 +840,8 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
 router.delete('/poi/:id', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
   const decoded = jwt.decode(req.cookies.token);
+  const token = req.cookies.token;
+
 
   repo.deletePOI(req.params.id)
     .then((returned) => {
@@ -839,6 +850,7 @@ router.delete('/poi/:id', checkForToken, verifyUser, (req, res) => {
         res.status(404).send(`Not Found`);
         return;
       }
+      res.cookie('token', token, {httpOnly: true });
       res.send(returned);
     })
     .catch(err => {
