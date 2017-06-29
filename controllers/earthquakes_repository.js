@@ -18,14 +18,11 @@ class EarthquakesRepository{
   queryEarthquakesByParameters(parameters) {
     let queryString = '';
 
-
     for (let key of Object.keys(parameters)) {
       queryString += `${key}=${parameters[key]}&`
     }
 
-
     return fetch(URL+queryString)
-
     }
 
 // latitude, longitude, starttime, endtime, minmagnitude, maxmagnitude, maxradiuskm, limit
