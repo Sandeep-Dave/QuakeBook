@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/earthquake', earthquake);
-// app.use('/earthquakes', earthquakes);
+app.use('/earthquakes', earthquakes);
 app.use('/user', user);
 app.use('/profile', profile);
 
