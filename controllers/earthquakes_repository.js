@@ -26,9 +26,6 @@ class EarthquakesRepository{
     return fetch(URL+queryString)
     }
 
-// latitude, longitude, starttime, endtime, minmagnitude, maxmagnitude, maxradiuskm, limit
-
-
 }
 
 module.exports = EarthquakesRepository;
