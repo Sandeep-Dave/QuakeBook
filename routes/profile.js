@@ -11,6 +11,7 @@ const ProfileRepo   = require('../controllers/profile_repository');
 
 /**
 * @api {post} /profile/login  Authenticate existing user to the site.
+* @apiVersion 1.0.0
 * @apiName UserLogin
 * @apiGroup Profile
 *
@@ -80,6 +81,7 @@ router.post('/login', (req, res) => {
 
 /**
 * @api {get} /profile   Get authenticated user's profile information
+* @apiVersion 1.0.0
 * @apiName GetProfile
 * @apiGroup Profile
 *
@@ -126,6 +128,7 @@ router.get('/', checkForToken, verifyUser, (req, res) => {
 
 /**
 * @api {put} /profile   Create new user profile
+* @apiVersion 1.0.0
 * @apiName NewProfile
 * @apiGroup Profile
 *
@@ -183,6 +186,7 @@ router.put('/', (req, res) => {
 
 /**
 * @api {post} /profile    Update user profile information
+* @apiVersion 1.0.0
 * @apiName UpdateProfile
 * @apiGroup Profile
 *
@@ -257,6 +261,7 @@ router.post('/', checkForToken, verifyUser, (req, res) => {
 
 /**
 * @api {delete} /profile    Deletes user profile
+* @apiVersion 1.0.0
 * @apiName DeleteProfile
 * @apiGroup Profile
 *
@@ -305,6 +310,7 @@ router.delete('/', checkForToken, verifyUser, (req, res) => {
 
 /**
 * @api {get} /profile/earthquakes   Return all earthquakes saved in profile
+* @apiVersion 1.0.0
 * @apiName GetProfileEarthquakes
 * @apiGroup Profile
 *
@@ -366,6 +372,7 @@ router.get('/earthquakes', checkForToken, verifyUser, (req, res) => {
 
 /**
 * @api {put} /profile/earthquakes  Add existing event to profile's saved list
+* @apiVersion 1.0.0
 * @apiName SaveProfileEarthquake
 * @apiGroup Profile
 *
@@ -407,7 +414,8 @@ router.put('/earthquakes/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {delete} /profile/earthquakes/:id
+* @api {delete} /profile/earthquakes/:id Delete saved earthquake from profile.
+* @apiVersion 1.0.0
 * @apiName RemoveProfileEarthquake
 * @apiGroup Profile
 *
@@ -449,7 +457,8 @@ router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {get} /profile/notes
+* @api {get} /profile/notes Get all user notes.
+* @apiVersion 1.0.0
 * @apiName GetProfileNotes
 * @apiGroup Profile
 *
@@ -502,6 +511,7 @@ router.get('/notes', checkForToken, verifyUser, (req, res) => {
 
 /**
 * @api {put} /profile/notes   Create new note.
+* @apiVersion 1.0.0
 * @apiName NewProfileNote
 * @apiGroup Profile
 *
@@ -561,7 +571,8 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {delete} /profile/notes
+* @api {delete} /profile/notes  Delete one of user's own notes.
+* @apiVersion 1.0.0
 * @apiName RemoveProfileNote
 * @apiGroup Profile
 *
@@ -614,7 +625,8 @@ router.delete('/notes/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {get} /profile/friends
+* @api {get} /profile/friends Get profile details of a user on friends list.
+* @apiVersion 1.0.0
 * @apiName GetProfileFriends
 * @apiGroup Profile
 *
@@ -663,7 +675,8 @@ router.get('/friends', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {put} /profile/friends
+* @api {put} /profile/friends Add a user to friends list.
+* @apiVersion 1.0.0
 * @apiName NewProfileFriend
 * @apiGroup Profile
 *
@@ -707,6 +720,7 @@ router.put('/friends/:id', checkForToken, verifyUser, (req, res) => {
 
 /**
 * @api {delete} /profile/friends  Remove a friend from user's list.
+* @apiVersion 1.0.0
 * @apiName RemoveProfileFriend
 * @apiGroup Profile
 *
@@ -751,7 +765,8 @@ router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {get} /profile/poi
+* @api {get} /profile/poi   Get list of user's Points-of-Interest.
+* @apiVersion 1.0.0
 * @apiName GetProfilePOIs
 * @apiGroup Profile
 *
@@ -803,7 +818,8 @@ router.get('/poi', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {put} /profile/poi
+* @api {put} /profile/poi   Add a Point-of_interest to user's list.
+* @apiVersion 1.0.0
 * @apiName NewProfilePOI
 * @apiGroup Profile
 *
@@ -871,7 +887,8 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {delete} /profile/poi/:id
+* @api {delete} /profile/poi/:id  Remove a point-of-interest from list.
+* @apiVersion 1.0.0
 * @apiName RemoveProfilePOI
 * @apiGroup Profile
 *
