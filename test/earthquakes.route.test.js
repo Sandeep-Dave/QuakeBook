@@ -30,9 +30,7 @@ suite('earthquakes routes', addDatabaseHooks(() => {
 
   test('GET /earthquakes', (done) => {
     request(server)
-      // .get('earthquakes?latitude=59.7657&longitude=-136.5902&starttime=1991&minmagnitude=3&maxmagnitude=6&maxradiuskm=300&limit=2&')
-      .get('earthquakes')
-      .query('latitude=59.7657&longitude=-136.5902&starttime=1991&minmagnitude=3&maxmagnitude=6&maxradiuskm=300&limit=2&')
+      .get('/earthquakes?latitude=59.7657&longitude=-136.5902&starttime=1991&minmagnitude=3&maxmagnitude=6&maxradiuskm=300&limit=2&')
       .set('Accept','application/json')
       .set('Content-Type', 'application/json')
       .expect('Content-Type', /json/)

@@ -156,7 +156,7 @@ router.put('/', (req, res) => {
 
   const repo = new ProfileRepo();
 
-  if(!req.body || !req.body.name || !req.body.email || !req.body.password || !req.body.timezone){
+  if(req.body === undefined || req.body.name === undefined || req.body.email === undefined || req.body.password === undefined || req.body.timezone === undefined){
     res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid User Information`);
     return;
@@ -215,7 +215,7 @@ router.put('/', (req, res) => {
 */
 router.post('/', checkForToken, verifyUser, (req, res) => {
 
-  if(!req.body || (!req.body.name && !req.body.email && !req.body.timzone && !req.body.password)){
+  if(req.body === undefined || (req.body.name === undefined && req.body.email === undefined && req.body.timzone === undefined && req.body.password === undefined)){
     res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid User Information`);
     return;
@@ -545,7 +545,7 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
   const decoded = jwt.decode(req.cookies.token);
 
 
-  if(!req.body || !req.body.event_id || !req.body.text || req.body.is_private === undefined){
+  if(req.body === undefined || req.body.event_id === undefined || req.body.text === undefined || req.body.is_private === undefined){
     res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid Note Values`);
     return;
@@ -860,7 +860,7 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
   const decoded = jwt.decode(req.cookies.token);
 
-  if(!req.body || !req.body.lat || !req.body.long || req.body.is_home === undefined || !req.body.label || req.body.max_radius === undefined) {
+  if(req.body === undefined || req.body.lat === undefined || req.body.long === undefined || req.body.is_home === undefined || req.body.label === undefined || req.body.max_radius === undefined) {
     res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid POI Values`);
     return;

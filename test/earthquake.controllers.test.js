@@ -9,7 +9,6 @@ const { addDatabaseHooks } = require('./utils')
 const Repo  = require('../controllers/earthquake_repository');
 const repo = new Repo();
 
-
 suite('earthquake controllers', addDatabaseHooks(() => {
 
   test('get earthquake by id', (done) => {
@@ -86,6 +85,5 @@ suite('earthquake controllers', addDatabaseHooks(() => {
           done(err);
         });
       });
-
 
 }));

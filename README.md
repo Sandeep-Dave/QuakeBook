@@ -28,7 +28,6 @@ This route is where any user (logged in or not) may query the USGS api for any c
 - `maxradiuskm` (required with `latitude` and `longitude`)
 - `limit` (defaults to 100 if omitted)
 
+### Local Environment
 
-
-
-
+As a prerequisite, set up a .ENV file with a JWT_KEY.
