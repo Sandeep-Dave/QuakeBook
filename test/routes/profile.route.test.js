@@ -74,7 +74,7 @@ suite('profile routes', addDatabaseHooks(() => {
       password: 'Sem8ntiK'
     }, done)
     .expect('Content-Type', /json/)
-    .expect(200, [{
+    .expect(201, [{
       id: 4
     }], done);
   });
@@ -111,7 +111,7 @@ suite('profile routes', addDatabaseHooks(() => {
     .put('/profile/earthquakes/4')
     .set('Accept', 'application/json')
     .expect('Content-Type', /json/)
-    .expect(200, [{event_id:4, user_id:1}])
+    .expect(201, [{event_id:4, user_id:1}])
     .end(done);
   });
 
@@ -156,7 +156,7 @@ suite('profile routes', addDatabaseHooks(() => {
     .expect((res) => {
       delete res.body[0].note_date_time;
     })
-    .expect(200, [{
+    .expect(201, [{
       id:4,
       user_id:1,
       event_id: 3,
@@ -195,7 +195,7 @@ suite('profile routes', addDatabaseHooks(() => {
     .put('/profile/friends/2')
     .set('Accept', 'application/json')
     .expect('Content-Type', /json/)
-    .expect(200, [{user_from:1, user_to:2}])
+    .expect(201, [{user_from:1, user_to:2}])
     .end(done);
   });
 
@@ -248,7 +248,7 @@ suite('profile routes', addDatabaseHooks(() => {
       label: 'Punto Allegro'
     }, done)
     .expect('Content-Type', /json/)
-    .expect(200, [{
+    .expect(201, [{
       id: 8,
       user_id: 1,
       lat:  '40.7821',
