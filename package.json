@@ -10,7 +10,8 @@
   "scripts": {
     "test": "node_modules/mocha/bin/mocha",
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "coverage": "istanbul cover _mocha -- -R spec"
   },
   "repository": {
     "type": "git",
