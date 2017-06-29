@@ -20,24 +20,23 @@ const ProfileRepo   = require('../controllers/profile_repository');
 * @apiSuccess {Integer} id              ID of the note.
 *
 * @apiSuccessExample Success-Response:
-*   HTTP/1.1 200 OK
-*   {
+*   HTTP/1.1 204 NO CONTENT
 *
-*   }
 *
-* @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
+*
+*
+* @apiError UserNotFound The note was not found.
+* @apiErrorExample {text} Not Found Error:
 *     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+*
+*     Not Found
+*
 */
 router.post('/login', (req, res) => {
   const repo      = new ProfileRepo();
   const email     = req.body.email;
   const password  = req.body.password;
   var user_id;
-  // console.log(email);
 
   repo.getHashedPassword(email)
     .then((resolved) => {
@@ -68,7 +67,7 @@ router.post('/login', (req, res) => {
 
       res.cookie('token', token, {httpOnly: true });
       res.setHeader('Content-Type', 'application/json');
-      res.send(true);
+      res.status(204).send(true);
       return;
     })
     .catch(err => {
@@ -99,11 +98,11 @@ router.post('/login', (req, res) => {
 *   }
 *
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
+* @apiErrorExample {text} Not Found Error:
 *     HTTP/1.1 404 Not Found
-*     {
-*       "error": "UserNotFound"
-*     }
+*
+*     User Not Found
+*
 */
 router.get('/', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -135,20 +134,20 @@ router.get('/', checkForToken, verifyUser, (req, res) => {
 * @apiParam {String} password              User's password
 * @apiParam {Number} timezone              User's timezone
 *
-* @apiSuccess {Integer} id               New user's ID
+* @apiSuccess {Integer} id                 New user's ID
 *
 * @apiSuccessExample Success-Response:
-*   HTTP/1.1 200 OK
+*   HTTP/1.1 201 CREATED
 *   {
 *     id: 55
 *   }
 *
 * @apiError NotValid The supplied user info was not valid.
-* @apiErrorExample {json} Not Valid Error:
+* @apiErrorExample {text} Invalid User Error:
 *     HTTP/1.1 400 Invalid Info
-*     {
-*       "error": "Invalid information"
-*     }
+*
+*     Invalid User Information
+*
 */
 router.put('/', (req, res) => {
 
@@ -175,7 +174,7 @@ router.put('/', (req, res) => {
       res.status(400).send(`Invalid User Information`);
       return;
     }
-    res.send(addedUserId);
+    res.status(201).send(addedUserId);
   })
   .catch(err => {
     throw err;
@@ -204,11 +203,11 @@ router.put('/', (req, res) => {
 *   }
 *
 * @apiError UserNotFound The user was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "UserNotFound"
-*     }
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
 */
 router.post('/', checkForToken, verifyUser, (req, res) => {
 
@@ -272,17 +271,17 @@ router.post('/', checkForToken, verifyUser, (req, res) => {
 *   HTTP/1.1 200 OK
 *   {
 *     id: 18,
-*     name: Helen Miren,
+*     name: Helen Mirren,
 *     email: iwasinexcalliber@yahoo.com,
 *     timezone: 0
 *   }
 *
 * @apiError UserNotFound The user was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "User Not found"
-*     }
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
 */
 router.delete('/', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -340,11 +339,11 @@ router.delete('/', checkForToken, verifyUser, (req, res) => {
 *   ]
 *
 * @apiError EventNotFound The earthquake event was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "EventNotFound"
-*     }
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
 */
 router.get('/earthquakes', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -377,17 +376,17 @@ router.get('/earthquakes', checkForToken, verifyUser, (req, res) => {
 * @apiSuccess {Number} event_id         Earthquake event's id
 *
 * @apiSuccessExample Success-Response:
-*   HTTP/1.1 200 OK
+*   HTTP/1.1 20 CREATED
 *   {
 *
 *   }
 *
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
 */
 router.put('/earthquakes/:id', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -400,7 +399,7 @@ router.put('/earthquakes/:id', checkForToken, verifyUser, (req, res) => {
         res.status(400).send(`Invalid User Information`);
         return;
       }
-      res.send(returned);
+      res.status(201).send(returned);
     })
     .catch(err => {
       throw err;
@@ -419,15 +418,15 @@ router.put('/earthquakes/:id', checkForToken, verifyUser, (req, res) => {
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
 *   {
-*
+*     id:3
 *   }
 *
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
+* @apiErrorExample {text} Not Found Error:
 *     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+*
+*     Not Found
+*
 */
 router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -456,20 +455,31 @@ router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
 *
 * @apiParam {Number} id                  User's unique ID
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Number} id               ID of the note.
+* @apiSuccess {Number} user_id               ID of the user.
+* @apiSuccess {Number} event_id               ID of the eventy.
+* @apiSuccess {String} note_date_time         DateTime note was created.
+* @apiSuccess {String} text               Content of note
+* @apiSuccess {Boolean} is_private        Whether note is publically viewable.
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
-*   {
-*
-*   }
-*
+*   [
+*    {
+*     id: 11,
+*     user_id: 4,
+*     event_id: 88,
+*     note_date_time: '2017-06-27 17:18:28.506846-07',
+*     text: 'I survived this monster!',
+*     is_private: false
+*    }
+*   ]
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
 */
 router.get('/notes', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -503,7 +513,7 @@ router.get('/notes', checkForToken, verifyUser, (req, res) => {
 * @apiSuccess {Integer} id      ID of the note.
 *
 * @apiSuccessExample Success-Response:
-*   HTTP/1.1 200 OK
+*   HTTP/1.1 201 CREATED
 *   {
 *     id: 14,
 *     user_id: 8,
@@ -514,11 +524,11 @@ router.get('/notes', checkForToken, verifyUser, (req, res) => {
 *   }
 *
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+* @apiErrorExample {text} Bad Requesrt Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid Note Values
+*
 */
 router.put('/notes', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -543,7 +553,7 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
         return;
       }
 
-      res.send(returned);
+      res.status(201).send(returned);
     })
     .catch(err => {
       throw err;
@@ -557,20 +567,30 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
 *
 * @apiParam {Number} id                  User's unique ID
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Number} id               ID of the note.
+* @apiSuccess {Number} user_id               ID of the user.
+* @apiSuccess {Number} event_id               ID of the eventy.
+* @apiSuccess {String} note_date_time         DateTime note was created.
+* @apiSuccess {String} text               Content of note
+* @apiSuccess {Boolean} is_private        Whether note is publically viewable.
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
-*   {
-*
-*   }
+*    {
+*     id: 11,
+*     user_id: 4,
+*     event_id: 88,
+*     note_date_time: '2017-06-27 17:18:28.506846-07',
+*     text: 'I survived this monster!',
+*     is_private: false
+*    }
 *
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
+* @apiErrorExample {text} Not Found Error:
 *     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+*
+*     Not Found
+*
 */
 router.delete('/notes/:id', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -600,20 +620,28 @@ router.delete('/notes/:id', checkForToken, verifyUser, (req, res) => {
 *
 * @apiParam {Number} id                  User's unique ID
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Integer} user_from               ID of the current user.
+* @apiSuccess {Integer} user_to               ID of the user's friend.
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
-*   {
-*
-*   }
+*   [
+*    {
+*     user_from: 1,
+*     user_to: 4
+*    },
+*    {
+*     user_from: 1,
+*     user_to: 6
+*    }
+*   ]
 *
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
 */
 router.get('/friends', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -640,21 +668,24 @@ router.get('/friends', checkForToken, verifyUser, (req, res) => {
 * @apiGroup Profile
 *
 * @apiParam {Number} id                  User's unique ID
+* @apiParam {Number} user_id             Other User ID to add as Friend
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Integer} user_from               ID of the current user.
+* @apiSuccess {Integer} user_to               ID of the user's friend.
 *
 * @apiSuccessExample Success-Response:
-*   HTTP/1.1 200 OK
-*   {
-*
-*   }
+*   HTTP/1.1 201 CREATED
+*    {
+*     user_from: 1,
+*     user_to: 4
+*    }
 *
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
 */
 router.put('/friends/:id', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -667,7 +698,7 @@ router.put('/friends/:id', checkForToken, verifyUser, (req, res) => {
         res.status(400).send(`Invalid User Information`);
         return;
       }
-      res.send(returned);
+      res.status(201).send(returned);
     })
     .catch(err => {
       throw err;
@@ -675,26 +706,28 @@ router.put('/friends/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {delete} /profile/friends
+* @api {delete} /profile/friends  Remove a friend from user's list.
 * @apiName RemoveProfileFriend
 * @apiGroup Profile
 *
 * @apiParam {Number} id                  User's unique ID
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Integer} user_from               ID of the current user.
+* @apiSuccess {Integer} user_to               ID of the user's friend.
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
 *   {
-*
-*   }
+*     user_from: 1,
+*     user_to: 4
+*    }
 *
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
+* @apiErrorExample {text} Not Found Error:
 *     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+*
+*     Not Found
+*
 */
 router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -724,20 +757,31 @@ router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
 *
 * @apiParam {Number} id                  User's unique ID
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Number} user_id           User's unique ID
+* @apiSuccess {String} lat               location's latitude
+* @apiSuccess {String} long              location's longitude
+* @apiSuccess {Boolean} is_home          Whether location is user's home loc
+* @apiSuccess {String} label             Description of location
+* @apiSuccess {Number} max_radius        Search radius (km)
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
 *   {
-*
+*     id: 1,
+*     user_id: 2,
+*     lat: 47.6686667,
+*     long: -122.4905,
+*     is_home: false,
+*     label: The Eiffel Tower,
+*     max_radius: 200
 *   }
 *
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
 */
 router.get('/poi', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -770,20 +814,31 @@ router.get('/poi', checkForToken, verifyUser, (req, res) => {
 * @apiParam {String} label             Description of location
 * @apiParam {Number} max_radius        Search radius (km)
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Number} user_id           User's unique ID
+* @apiSuccess {String} lat               location's latitude
+* @apiSuccess {String} long              location's longitude
+* @apiSuccess {Boolean} is_home          Whether location is user's home loc
+* @apiSuccess {String} label             Description of location
+* @apiSuccess {Number} max_radius        Search radius (km)
 *
 * @apiSuccessExample Success-Response:
-*   HTTP/1.1 200 OK
+*   HTTP/1.1 201 CREATED
 *   {
-*
+*     id: 1,
+*     user_id: 2,
+*     lat: 47.6686667,
+*     long: -122.4905,
+*     is_home: false,
+*     label: The Eiffel Tower,
+*     max_radius: 200
 *   }
 *
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 404 Bad Request
+*
+*     Invalid POI Values
+*
 */
 router.put('/poi', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
@@ -808,7 +863,7 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
         res.status(400).send(`Invalid Note Values`);
         return;
       }
-      res.send(returned);
+      res.status(201).send(returned);
     })
     .catch(err => {
       throw err;
@@ -822,20 +877,31 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
 *
 * @apiParam {Number} id                  User's unique ID
 *
-* @apiSuccess {Integer} id               ID of the note.
+* @apiSuccess {Number} user_id           User's unique ID
+* @apiSuccess {String} lat               location's latitude
+* @apiSuccess {String} long              location's longitude
+* @apiSuccess {Boolean} is_home          Whether location is user's home loc
+* @apiSuccess {String} label             Description of location
+* @apiSuccess {Number} max_radius        Search radius (km)
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
 *   {
-*
+*     id: 1,
+*     user_id: 2,
+*     lat: 47.6686667,
+*     long: -122.4905,
+*     is_home: false,
+*     label: The Eiffel Tower,
+*     max_radius: 200
 *   }
 *
 * @apiError NoteNotFound The note was not found.
-* @apiErrorExample {json} Not Found Error:
+* @apiErrorExample {text} Not Found Error:
 *     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+*
+*     Not Found
+*
 */
 router.delete('/poi/:id', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
