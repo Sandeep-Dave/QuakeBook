@@ -72,12 +72,11 @@ suite('profile routes', addDatabaseHooks(() => {
       email: 'abd@gmail.com',
       timezone: 5,
       password: 'Sem8ntiK'
-    },done)
+    }, done)
     .expect('Content-Type', /json/)
     .expect(200, [{
       id: 4
     }], done);
-
   });
 
 
@@ -146,18 +145,23 @@ suite('profile routes', addDatabaseHooks(() => {
   test('PUT /profile/notes with token', (done) => {
     /* eslint-disable max-len */
     agent
-    .put('/profile/notes/4')
+    .put('/profile/notes')
     .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
     .send({
       event_id: 3,
       is_private: false,
       text: 'This was the time of my life!'}, done)
-    // .expect('Content-Type', /json/)
+    .expect('Content-Type', /json/)
+    .expect((res) => {
+      delete res.body[0].note_date_time;
+    })
     .expect(200, [{
+      id:4,
+      user_id:1,
       event_id: 3,
       is_private: false,
-      text: 'This was the time of my life!'}])
-    .end(done);
+      text: 'This was the time of my life!'}], done)
   });
 
   test('DELETE /profile/notes with token', (done) => {
@@ -244,7 +248,15 @@ suite('profile routes', addDatabaseHooks(() => {
       label: 'Punto Allegro'
     }, done)
     .expect('Content-Type', /json/)
-    .expect(200, [{event_id:4, user_id:1}])
+    .expect(200, [{
+      id: 8,
+      user_id: 1,
+      lat:  '40.7821',
+      long: '-102.4519',
+      is_home: false,
+      max_radius: 200,
+      label: 'Punto Allegro'
+    }])
     .end(done);
   });
 

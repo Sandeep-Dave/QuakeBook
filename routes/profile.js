@@ -524,7 +524,8 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
   const decoded = jwt.decode(req.cookies.token);
 
-  if(!req.body || !req.body.event_id || !req.body.text || !req.body.is_private){
+
+  if(!req.body || !req.body.event_id || !req.body.text || req.body.is_private === undefined){
     res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid Note Values`);
     return;
@@ -534,7 +535,7 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
               text: req.body.text,
               is_private: req.body.is_private};
 
-  repo.addEvent(note, decoded.sub.user_id)
+  repo.addNote(note, decoded.sub.user_id)
     .then((returned) => {
       if(returned === undefined){
         res.setHeader('Content-Type', 'text/plain');
@@ -788,7 +789,7 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
   const decoded = jwt.decode(req.cookies.token);
 
-  if(!req.body || !req.body.lat || !req.body.long || !req.body.is_home || !req.body.label || !req.body.max_radius){
+  if(!req.body || !req.body.lat || !req.body.long || req.body.is_home === undefined || !req.body.label || req.body.max_radius === undefined) {
     res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid POI Values`);
     return;
@@ -807,7 +808,6 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
         res.status(400).send(`Invalid Note Values`);
         return;
       }
-
       res.send(returned);
     })
     .catch(err => {
