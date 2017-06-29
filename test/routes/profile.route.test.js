@@ -104,7 +104,6 @@ suite('profile routes', addDatabaseHooks(() => {
 
     });
 
-
   // test('PATCH /books/:id', (done) => {
   //   /* eslint-disable max-len */
   //   request(server)
@@ -138,6 +137,5 @@ suite('profile routes', addDatabaseHooks(() => {
       .expect(200)
       .end(done);
   });
-
 
 }));
