@@ -2,10 +2,12 @@
 
 ## Documentation
 
-QuakeBook uses ApiDoc.js to create client-side [documentation for our API.](https://github.com/Sandeep-Dave/QuakeBook/blob/master/public/index.html)
+QuakeBook uses ApiDoc.js to create client-side [documentation for our API.](https://quakebook.herokuapp.com/)
 
 ## Description
 This api will serve data relating to a social network surrounding earthquake events.  Users will be able to provide their home location as well as additional locations and find the locations and magnitudes of all earthquakes within a given radius of each location and for a specified timeframe.  Additionally, they will be capable of commenting on their impressions of a specified earthquake and connect with other people who have also commented on that earthquake.  Users will be able to save a list of notable earthquakes as well as a list of other users whom they may want to 'friend.'
+
+QuakeBook gives users the ability to connect to individuals with whom they might want to collaborate on an earthquake action plan to ensure future preparedness.
 
 
 ### Profile
@@ -30,7 +32,7 @@ This route is where any user (logged in or not) may query the USGS api for any c
 - `endtime`
 - `minmagnitude`
 - `maxmagnitude`
-- `maxradiuskm` (required with `latitude` and `longitude`)
+- `maxradiuskm` (in kilometers, required with `latitude` and `longitude`)
 - `limit` (defaults to 100 if omitted)
 
 ### Local Environment

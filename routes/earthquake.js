@@ -33,9 +33,9 @@ const router     = express.Router();
 * @apiError NoteNotFound The note was not found.
 * @apiErrorExample {json} Not Found Error:
 *     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+*
+*       Not Found
+*
 */
 
 router.get('/:id/notes', (req, res) => {
@@ -93,10 +93,10 @@ router.get('/:id/notes', (req, res) => {
 *
 * @apiError EventNotFound The earthquake event was not found.
 * @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "EventNotFound"
-*     }
+*      HTTP/1.1 404 Not Found
+*
+*       Not Found
+*
 */
 
 router.get('/:id', (req, res) => {
@@ -147,9 +147,9 @@ router.get('/:id', (req, res) => {
 * @apiError NotValid The supplied user info was not valid.
 * @apiErrorExample {json} Not Valid Error:
 *     HTTP/1.1 400 Invalid Info
-*     {
-*       "error": "Invalid information"
-*     }
+*
+*       Invalid Earthquake Information
+*
 */
 
 router.put('/', (req, res) => {
