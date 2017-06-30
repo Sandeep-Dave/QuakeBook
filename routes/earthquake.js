@@ -45,7 +45,7 @@ router.get('/:id/notes', (req, res) => {
 
   promiseFromQuery
     .then(notes => {
-      if(!notes) {
+      if(!notes || notes.length===0) {
         res.sendStatus(404);
         return;
       }
@@ -105,6 +105,7 @@ router.get('/:id', (req, res) => {
   let promiseFromQuery = earthquake.earthquakeById(id);
   promiseFromQuery
     .then(earthquake => {
+      // console.log('****', earthquake);
       if(!earthquake){
         res.sendStatus(404);
         return;
@@ -118,7 +119,7 @@ router.get('/:id', (req, res) => {
 });
 
 /**
-* @api {put} /profile   Create new earthquake event
+* @api {put} /profile                    Add new earthquake event to the database
 * @apiName AddEarthquake
 * @apiGroup Earthquake
 *
@@ -135,7 +136,7 @@ router.get('/:id', (req, res) => {
 * @apiSuccess {String} description       Brief description of event.
 * @apiSuccess {String} usgs_id           USGS ID for event
 *
-* @apiSuccess {Number} id               New user's ID
+*
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
@@ -155,14 +156,14 @@ router.put('/', (req, res) => {
 
   let earthquake = new Earthquake();
 
-  if(!req.body || !req.body.date_time || !req.body.tz_offset || !req.body.last_updated || !req.body.lat || !req.body.long || !req.body.depth || !req.body.magnitude || !req.body.description || !req.body.usgs_id){
+  if(req.body===undefined || req.body.date_time===undefined || req.body.tz_offset===undefined || req.body.last_updated===undefined || req.body.lat ===undefined || req.body.long === undefined|| req.body.depth === undefined || req.body.magnitude === undefined || req.body.description === undefined|| req.body.usgs_id === undefined ) {
     res.setHeader('Content-Type', 'plain/text');
     res.status(400).send(`Invalid Earthquake Information`);
     return;
   }
 
   var event = {date_time: req.body.date_time,
-               tz_offset: req.body.timezone,
+               tz_offset: req.body.tz_offset,
                last_updated: req.body.last_updated,
                lat: req.body.lat,
                long: req.body.long,
@@ -176,7 +177,7 @@ router.put('/', (req, res) => {
   promiseFromQuery
     .then(event => {
       res.setHeader('Content-Type', 'application/json')
-      return res.send(event);
+      return res.status(201).send(event);
     })
     .catch(err => {
       res.status(500).send(err);

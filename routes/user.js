@@ -4,8 +4,7 @@ const express    = require('express');
 const router     = express.Router();
 const knex       = require('../knex');
 const User       = require('../controllers/user_repository');
-// const checkForToken    = require('./helpers').checkForToken;
-// const verifyUser     = require('./helpers').verifyUser;
+
 
 /**
 * @api {get} /user/:id/notes  Request public notes posted by a specific user
@@ -45,7 +44,7 @@ router.get('/:id/notes', (req, res) => {
 
   promiseFromQuery
     .then(notes => {
-      if (!notes) {
+      if (!notes || notes.length === 0) {
         res.sendStatus(404);
         return;
       }
