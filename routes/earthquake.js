@@ -119,7 +119,7 @@ router.get('/:id', (req, res) => {
 });
 
 /**
-* @api {put} /profile   Create new earthquake event
+* @api {put} /profile                    Add new earthquake event to the database
 * @apiName AddEarthquake
 * @apiGroup Earthquake
 *
@@ -136,7 +136,7 @@ router.get('/:id', (req, res) => {
 * @apiSuccess {String} description       Brief description of event.
 * @apiSuccess {String} usgs_id           USGS ID for event
 *
-* @apiSuccess {Number} id               New user's ID
+*
 *
 * @apiSuccessExample Success-Response:
 *   HTTP/1.1 200 OK
