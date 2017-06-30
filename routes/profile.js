@@ -105,8 +105,7 @@ router.post('/login', (req, res) => {
 *
 */
 router.get('/', checkForToken, verifyUser, (req, res) => {
-  const repo    = new ProfileRepo();
-  // console.log('****',req.cookies);
+  const repo = new ProfileRepo();
   const decoded = jwt.decode(req.cookies.token);
 
   repo.getUserInfo(decoded.sub.user_id)
@@ -365,7 +364,7 @@ router.get('/earthquakes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {put} /profile/earthquakes  Add existing event to profile's saved list
+* @api {put} /profile/earthquakes     Add existing event to profile's saved list
 * @apiName SaveProfileEarthquake
 * @apiGroup Profile
 *
@@ -435,13 +434,14 @@ router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
 
   repo.deleteEvent(req.params.id, decoded.sub.user_id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length!==0){
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
+      } else if (returned.length === 0) {
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;
@@ -449,7 +449,7 @@ router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {get} /profile/notes
+* @api {get} /profile/notes              Return all saved notes in a users profile
 * @apiName GetProfileNotes
 * @apiGroup Profile
 *
@@ -501,7 +501,7 @@ router.get('/notes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {put} /profile/notes   Create new note.
+* @api {put} /profile/notes   Create new note, add to users profile.
 * @apiName NewProfileNote
 * @apiGroup Profile
 *
@@ -561,7 +561,7 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {delete} /profile/notes
+* @api {delete} /profile/notes          Delete note with specific id saved in users profile
 * @apiName RemoveProfileNote
 * @apiGroup Profile
 *
@@ -600,13 +600,14 @@ router.delete('/notes/:id', checkForToken, verifyUser, (req, res) => {
 
   repo.deleteNote(req.params.id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length === 0){
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;
@@ -737,13 +738,14 @@ router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
 
   repo.deleteFriend(decoded.sub.user_id, req.params.id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length === 0){
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;
@@ -751,7 +753,7 @@ router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {get} /profile/poi
+* @api {get} /profile/poi               Get
 * @apiName GetProfilePOIs
 * @apiGroup Profile
 *
@@ -862,8 +864,9 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
         res.setHeader('Content-Type', 'text/plain');
         res.status(400).send(`Invalid Note Values`);
         return;
+      } else {
+        res.status(201).send(returned);
       }
-      res.status(201).send(returned);
     })
     .catch(err => {
       throw err;
@@ -874,10 +877,11 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
 * @api {delete} /profile/poi/:id
 * @apiName RemoveProfilePOI
 * @apiGroup Profile
+
+* @apiParam {Number} user_id             User's unique ID
+* @apiParam {Number} id                  Point of Interest unique ID
 *
-* @apiParam {Number} id                  User's unique ID
-*
-* @apiSuccess {Number} user_id           User's unique ID
+* @apiSuccess {Number} poi_id            Point of Interest unique ID
 * @apiSuccess {String} lat               location's latitude
 * @apiSuccess {String} long              location's longitude
 * @apiSuccess {Boolean} is_home          Whether location is user's home loc
@@ -909,15 +913,16 @@ router.delete('/poi/:id', checkForToken, verifyUser, (req, res) => {
   const token = req.cookies.token;
 
 
-  repo.deletePOI(req.params.id)
+  repo.deletePOI(req.params.id, decoded.sub.user_id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length === 0){
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;

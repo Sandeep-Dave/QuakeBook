@@ -118,10 +118,12 @@ suite('profile controllers', addDatabaseHooks(() => {
       });
 
   test('delete event from a user\'s saved earthquakes table', (done) => {
-    profile.deleteEvent(1, 2)
+    profile.deleteEvent(2, 2)
       .then((actual) => {
         const expected =
-          [];
+          [{
+          "event_id": 2
+        }];
         assert.deepEqual(actual, expected, 'failed');
           done();
         })

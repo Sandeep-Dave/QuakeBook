@@ -15,9 +15,9 @@ module.exports = {
       if(decoded){
         next();
         return;
+      } else {
+        res.status(401).send('Unauthorized');
       }
-      res.setHeader('Content-Type', 'application/json');
-      res.status(401).send('Unauthorized');
     });
   }
 }
