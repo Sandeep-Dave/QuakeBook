@@ -10,13 +10,14 @@ const earthquakes  = require('./routes/earthquakes');
 const user         = require('./routes/user');
 const profile      = require('./routes/profile');
 const cookieParser = require('cookie-parser');
+const path         = require('path');
 
 const port = process.env.PORT || 8000;
 
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/earthquake', earthquake);
 app.use('/earthquakes', earthquakes);
