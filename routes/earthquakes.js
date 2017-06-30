@@ -41,10 +41,10 @@ const router  = express.Router();
 *
 * @apiError EarthquakeNotFound The earthquake was not found.
 * @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "EarthquakeNotFound"
-*     }
+*      HTTP/1.1 404 Not Found
+*
+*       Not Found
+*
 */
 
 router.get('/:id', (req, res) => {
@@ -61,7 +61,7 @@ router.get('/:id', (req, res) => {
 })
 
 /**
-* @api {get} /earthquakes/                   Get Earthquake information from USGS API based on a range of optional parameters you can pass in. 
+* @api {get} /earthquakes/                   Get Earthquake information from USGS API based on a range of optional parameters you can pass in.
 * @apiVersion 1.0.0
 * @apiName GetEarthquakesByParameters
 * @apiGroup Earthquakes
@@ -103,10 +103,10 @@ router.get('/:id', (req, res) => {
 *
 * @apiError NoteNotFound The note was not found.
 * @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+*      HTTP/1.1 404 Not Found
+*
+*       Not Found
+* 
 */
 
 router.get('/', (req, res) => {

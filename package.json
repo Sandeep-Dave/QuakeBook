@@ -4,7 +4,7 @@
   "description": "Social network for earthquake events!",
   "apidoc": {
     "title": "apidoc for QuakeBook",
-    "url": "localhost:8000"
+    "url": "quakebook.herokuapp.com/"
   },
   "main": "server.js",
   "scripts": {

@@ -370,12 +370,8 @@ router.get('/earthquakes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-<<<<<<< HEAD
 * @api {put} /profile/earthquakes  Add existing event to profile's saved list
 * @apiVersion 1.0.0
-=======
-* @api {put} /profile/earthquakes     Add existing event to profile's saved list
->>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName SaveProfileEarthquake
 * @apiGroup Profile
 *
@@ -386,9 +382,10 @@ router.get('/earthquakes', checkForToken, verifyUser, (req, res) => {
 * @apiSuccess {Number} event_id         Earthquake event's id
 *
 * @apiSuccessExample Success-Response:
-*   HTTP/1.1 20 CREATED
+*   HTTP/1.1 201 CREATED
 *   {
-*
+*     user_id,
+*     event_id
 *   }
 *
 * @apiError NoteNotFound The note was not found.
@@ -461,12 +458,8 @@ router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-<<<<<<< HEAD
 * @api {get} /profile/notes Get all user notes.
 * @apiVersion 1.0.0
-=======
-* @api {get} /profile/notes              Return all saved notes in a users profile
->>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName GetProfileNotes
 * @apiGroup Profile
 *
@@ -518,12 +511,8 @@ router.get('/notes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-<<<<<<< HEAD
 * @api {put} /profile/notes   Create new note.
 * @apiVersion 1.0.0
-=======
-* @api {put} /profile/notes   Create new note, add to users profile.
->>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName NewProfileNote
 * @apiGroup Profile
 *
@@ -583,12 +572,8 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-<<<<<<< HEAD
 * @api {delete} /profile/notes  Delete one of user's own notes.
 * @apiVersion 1.0.0
-=======
-* @api {delete} /profile/notes          Delete note with specific id saved in users profile
->>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName RemoveProfileNote
 * @apiGroup Profile
 *
@@ -783,12 +768,8 @@ router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-<<<<<<< HEAD
 * @api {get} /profile/poi   Get list of user's Points-of-Interest.
 * @apiVersion 1.0.0
-=======
-* @api {get} /profile/poi               Get
->>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName GetProfilePOIs
 * @apiGroup Profile
 *

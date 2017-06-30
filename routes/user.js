@@ -31,10 +31,10 @@ const User       = require('../controllers/user_repository');
 *
 * @apiError NoteNotFound The note was not found.
 * @apiErrorExample {json} Not Found Error:
-*     HTTP/1.1 404 Not Found
-*     {
-*       "error": "NoteNotFound"
-*     }
+*      HTTP/1.1 404 Not Found
+*
+*       Not Found
+*
 */
 router.get('/:id/notes', (req, res) => {
   let userId = req.userId;
@@ -78,9 +78,9 @@ router.get('/:id/notes', (req, res) => {
 * @apiError UserNotFound The user was not found.
 * @apiErrorExample {json} Not Found Error:
 *     HTTP/1.1 404 Not Found
-*     {
-*       "error": "UserNotFound"
-*     }
+*
+*       Not Found
+* 
 *
 *
 */
