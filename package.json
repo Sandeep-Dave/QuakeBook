@@ -1,49 +1,51 @@
 {
-  "name": "quakebook",
-  "version": "1.0.0",
+  "name"       : "quakebook",
+  "version"    : "1.0.0",
   "description": "Social network for earthquake events!",
   "apidoc": {
-    "title": "apiDoc for QuakeBook",
-    "url": "https://api.github.com/v1"
+    "title": "apidoc for QuakeBook",
+    "url": "localhost:8000"
   },
   "main": "server.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha",
-    "dev": "nodemon server.js",
-    "start": "node server.js",
-    "coverage": "istanbul cover _mocha -- -R spec"
+    "test"    : "node_modules/mocha/bin/mocha",
+    "dev"     : "nodemon server.js",
+    "start"   : "node server.js",
+    "coverage": "istanbul cover _mocha -- -R spec",
+    "api"     : "apidoc -i routes/ -o public/",
+    "heroku-postbuild": "knex migrate:latest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sandeep-Dave/QuakeBook.git"
+    "url" : "git+https://github.com/Sandeep-Dave/QuakeBook.git"
   },
   "keywords": [
     "social",
     "earthquakes"
   ],
-  "author": "Dave and Sandeep",
+  "author" : "Sandeep Sabu & Dave Gallup",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Sandeep-Dave/QuakeBook/issues"
   },
   "homepage": "https://github.com/Sandeep-Dave/QuakeBook#readme",
   "dependencies": {
-    "apidoc": "^0.17.6",
-    "bcrypt": "^1.0.2",
-    "body-parser": "^1.17.2",
+    "apidoc"       : "^0.17.6",
+    "bcrypt"       : "^1.0.2",
+    "body-parser"  : "^1.17.2",
     "cookie-parser": "^1.4.3",
-    "dotenv": "^4.0.0",
-    "express": "^4.15.3",
-    "jsonwebtoken": "^7.4.1",
-    "knex": "^0.13.0",
-    "node-fetch": "^1.7.1",
-    "pg": "^6.4.0",
-    "supertest": "^1.2.0"
+    "dotenv"       : "^4.0.0",
+    "express"      : "^4.15.3",
+    "jsonwebtoken" : "^7.4.1",
+    "knex"         : "^0.13.0",
+    "node-fetch"   : "^1.7.1",
+    "pg"           : "^6.4.0",
+    "supertest"    : "^1.2.0"
   },
   "devDependencies": {
-    "chai": "^4.0.2",
+    "chai"    : "^4.0.2",
     "istanbul": "^0.4.5",
-    "mocha": "^3.4.2",
-    "nodemon": "^1.11.0"
+    "mocha"   : "^3.4.2",
+    "nodemon" : "^1.11.0"
   }
 }

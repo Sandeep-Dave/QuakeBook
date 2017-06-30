@@ -9,6 +9,7 @@ const server = require('../server');
 const { addDatabaseHooks } = require('./utils');
 
 suite('user routes', addDatabaseHooks(() => {
+
   test('GET /user/:id', (done) => {
     request(server)
       .get('/user/1')
@@ -19,6 +20,14 @@ suite('user routes', addDatabaseHooks(() => {
             email: 'jkrowling@gmail.com',
             timezone: 9
             }, done);
+  });
+
+  test('GET /user/:id with invalid id', (done) => {
+    request(server)
+      .get('/user/0')
+      .set('Accept','application/json')
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect(404, done);
   });
 
   test('GET /user/:id/notes', (done) => {
@@ -35,4 +44,13 @@ suite('user routes', addDatabaseHooks(() => {
            text: 'I survived this monster!'
          }], done);
   });
+
+  test('GET /user/:id/notes with invalid id', (done) => {
+    request(server)
+      .get('/user/0/notes')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect(404, done);
+  });
+
 }));

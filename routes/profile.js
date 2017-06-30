@@ -11,6 +11,7 @@ const ProfileRepo   = require('../controllers/profile_repository');
 
 /**
 * @api {post} /profile/login  Authenticate existing user to the site.
+* @apiVersion 1.0.0
 * @apiName UserLogin
 * @apiGroup Profile
 *
@@ -80,6 +81,7 @@ router.post('/login', (req, res) => {
 
 /**
 * @api {get} /profile   Get authenticated user's profile information
+* @apiVersion 1.0.0
 * @apiName GetProfile
 * @apiGroup Profile
 *
@@ -105,8 +107,7 @@ router.post('/login', (req, res) => {
 *
 */
 router.get('/', checkForToken, verifyUser, (req, res) => {
-  const repo    = new ProfileRepo();
-  // console.log('****',req.cookies);
+  const repo = new ProfileRepo();
   const decoded = jwt.decode(req.cookies.token);
 
   repo.getUserInfo(decoded.sub.user_id)
@@ -126,6 +127,7 @@ router.get('/', checkForToken, verifyUser, (req, res) => {
 
 /**
 * @api {put} /profile   Create new user profile
+* @apiVersion 1.0.0
 * @apiName NewProfile
 * @apiGroup Profile
 *
@@ -153,7 +155,7 @@ router.put('/', (req, res) => {
 
   const repo = new ProfileRepo();
 
-  if(!req.body || !req.body.name || !req.body.email || !req.body.password || !req.body.timezone){
+  if(req.body === undefined || req.body.name === undefined || req.body.email === undefined || req.body.password === undefined || req.body.timezone === undefined){
     res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid User Information`);
     return;
@@ -183,6 +185,7 @@ router.put('/', (req, res) => {
 
 /**
 * @api {post} /profile    Update user profile information
+* @apiVersion 1.0.0
 * @apiName UpdateProfile
 * @apiGroup Profile
 *
@@ -211,7 +214,7 @@ router.put('/', (req, res) => {
 */
 router.post('/', checkForToken, verifyUser, (req, res) => {
 
-  if(!req.body || (!req.body.name && !req.body.email && !req.body.timzone && !req.body.password)){
+  if(req.body === undefined || (req.body.name === undefined && req.body.email === undefined && req.body.timzone === undefined && req.body.password === undefined)){
     res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid User Information`);
     return;
@@ -257,6 +260,7 @@ router.post('/', checkForToken, verifyUser, (req, res) => {
 
 /**
 * @api {delete} /profile    Deletes user profile
+* @apiVersion 1.0.0
 * @apiName DeleteProfile
 * @apiGroup Profile
 *
@@ -305,6 +309,7 @@ router.delete('/', checkForToken, verifyUser, (req, res) => {
 
 /**
 * @api {get} /profile/earthquakes   Return all earthquakes saved in profile
+* @apiVersion 1.0.0
 * @apiName GetProfileEarthquakes
 * @apiGroup Profile
 *
@@ -365,7 +370,12 @@ router.get('/earthquakes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
+<<<<<<< HEAD
 * @api {put} /profile/earthquakes  Add existing event to profile's saved list
+* @apiVersion 1.0.0
+=======
+* @api {put} /profile/earthquakes     Add existing event to profile's saved list
+>>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName SaveProfileEarthquake
 * @apiGroup Profile
 *
@@ -407,7 +417,8 @@ router.put('/earthquakes/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {delete} /profile/earthquakes/:id
+* @api {delete} /profile/earthquakes/:id Delete saved earthquake from profile.
+* @apiVersion 1.0.0
 * @apiName RemoveProfileEarthquake
 * @apiGroup Profile
 *
@@ -435,13 +446,14 @@ router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
 
   repo.deleteEvent(req.params.id, decoded.sub.user_id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length!==0){
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
+      } else if (returned.length === 0) {
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;
@@ -449,7 +461,12 @@ router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {get} /profile/notes
+<<<<<<< HEAD
+* @api {get} /profile/notes Get all user notes.
+* @apiVersion 1.0.0
+=======
+* @api {get} /profile/notes              Return all saved notes in a users profile
+>>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName GetProfileNotes
 * @apiGroup Profile
 *
@@ -501,7 +518,12 @@ router.get('/notes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
+<<<<<<< HEAD
 * @api {put} /profile/notes   Create new note.
+* @apiVersion 1.0.0
+=======
+* @api {put} /profile/notes   Create new note, add to users profile.
+>>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName NewProfileNote
 * @apiGroup Profile
 *
@@ -535,7 +557,7 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
   const decoded = jwt.decode(req.cookies.token);
 
 
-  if(!req.body || !req.body.event_id || !req.body.text || req.body.is_private === undefined){
+  if(req.body === undefined || req.body.event_id === undefined || req.body.text === undefined || req.body.is_private === undefined){
     res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid Note Values`);
     return;
@@ -561,7 +583,12 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {delete} /profile/notes
+<<<<<<< HEAD
+* @api {delete} /profile/notes  Delete one of user's own notes.
+* @apiVersion 1.0.0
+=======
+* @api {delete} /profile/notes          Delete note with specific id saved in users profile
+>>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName RemoveProfileNote
 * @apiGroup Profile
 *
@@ -600,13 +627,14 @@ router.delete('/notes/:id', checkForToken, verifyUser, (req, res) => {
 
   repo.deleteNote(req.params.id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length === 0){
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;
@@ -614,7 +642,8 @@ router.delete('/notes/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {get} /profile/friends
+* @api {get} /profile/friends Get profile details of a user on friends list.
+* @apiVersion 1.0.0
 * @apiName GetProfileFriends
 * @apiGroup Profile
 *
@@ -663,7 +692,8 @@ router.get('/friends', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {put} /profile/friends
+* @api {put} /profile/friends Add a user to friends list.
+* @apiVersion 1.0.0
 * @apiName NewProfileFriend
 * @apiGroup Profile
 *
@@ -707,6 +737,7 @@ router.put('/friends/:id', checkForToken, verifyUser, (req, res) => {
 
 /**
 * @api {delete} /profile/friends  Remove a friend from user's list.
+* @apiVersion 1.0.0
 * @apiName RemoveProfileFriend
 * @apiGroup Profile
 *
@@ -737,13 +768,14 @@ router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
 
   repo.deleteFriend(decoded.sub.user_id, req.params.id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length === 0){
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;
@@ -751,7 +783,12 @@ router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {get} /profile/poi
+<<<<<<< HEAD
+* @api {get} /profile/poi   Get list of user's Points-of-Interest.
+* @apiVersion 1.0.0
+=======
+* @api {get} /profile/poi               Get
+>>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName GetProfilePOIs
 * @apiGroup Profile
 *
@@ -803,7 +840,8 @@ router.get('/poi', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {put} /profile/poi
+* @api {put} /profile/poi   Add a Point-of_interest to user's list.
+* @apiVersion 1.0.0
 * @apiName NewProfilePOI
 * @apiGroup Profile
 *
@@ -844,7 +882,7 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
   const repo    = new ProfileRepo();
   const decoded = jwt.decode(req.cookies.token);
 
-  if(!req.body || !req.body.lat || !req.body.long || req.body.is_home === undefined || !req.body.label || req.body.max_radius === undefined) {
+  if(req.body === undefined || req.body.lat === undefined || req.body.long === undefined || req.body.is_home === undefined || req.body.label === undefined || req.body.max_radius === undefined) {
     res.setHeader('Content-Type', 'text/plain');
     res.status(400).send(`Invalid POI Values`);
     return;
@@ -862,8 +900,9 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
         res.setHeader('Content-Type', 'text/plain');
         res.status(400).send(`Invalid Note Values`);
         return;
+      } else {
+        res.status(201).send(returned);
       }
-      res.status(201).send(returned);
     })
     .catch(err => {
       throw err;
@@ -871,13 +910,15 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
-* @api {delete} /profile/poi/:id
+* @api {delete} /profile/poi/:id  Remove a point-of-interest from list.
+* @apiVersion 1.0.0
 * @apiName RemoveProfilePOI
 * @apiGroup Profile
+
+* @apiParam {Number} user_id             User's unique ID
+* @apiParam {Number} id                  Point of Interest unique ID
 *
-* @apiParam {Number} id                  User's unique ID
-*
-* @apiSuccess {Number} user_id           User's unique ID
+* @apiSuccess {Number} poi_id            Point of Interest unique ID
 * @apiSuccess {String} lat               location's latitude
 * @apiSuccess {String} long              location's longitude
 * @apiSuccess {Boolean} is_home          Whether location is user's home loc
@@ -909,15 +950,16 @@ router.delete('/poi/:id', checkForToken, verifyUser, (req, res) => {
   const token = req.cookies.token;
 
 
-  repo.deletePOI(req.params.id)
+  repo.deletePOI(req.params.id, decoded.sub.user_id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length === 0){
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;

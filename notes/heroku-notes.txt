@@ -1,0 +1,13 @@
+heroku create
+
+https://quakebook.herokuapp.com/ | https://git.heroku.com/quakebook.git
+
+heroku config:set 'JWT_KEY=GmwDNS+zKEAQE+fO1RpO9UWbo3Uv2ru7bQxKF9bD3ReNXesDTQBjUbbYXdstMafu EKV22HPPXjm6Nnob9NplTQ=='
+Setting JWT_KEY and restarting ⬢ quakebook... done, v3
+JWT_KEY: GmwDNS+zKEAQE+fO1RpO9UWbo3Uv2ru7bQxKF9bD3ReNXesDTQBjUbbYXdstMafu EKV22HPPXjm6Nnob9NplTQ==
+
+heroku addons:create heroku-postgresql:hobby-dev
+
+heroku create
+Creating app... done, ⬢ enigmatic-mountain-33576
+https://enigmatic-mountain-33576.herokuapp.com/ | https://git.heroku.com/enigmatic-mountain-33576.git
