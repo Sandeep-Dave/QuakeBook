@@ -3,6 +3,7 @@
 ## Description
 This api will serve data relating to a social network surrounding earthquake events.  Users will be able to provide their home location as well as additional locations and find the locations and magnitudes of all earthquakes within a given radius of each location and for a specified timeframe.  Additionally, they will be capable of commenting on their impressions of a specified earthquake and connect with other people who have also commented on that earthquake.  Users will be able to save a list of notable earthquakes as well as a list of other users whom they may want to 'friend.'
 
+
 ### Profile
 
 Much of the user's interaction will be within the profile routes.  Here, a user may login. Once logged in, a user will be able to retrieve their profile information.  They may also alter their list of saved earthquakes as well as their list of friends and their list of saved "points of interest".  An authenticated user is also able to place a private note on any given earthquake for their personal use or place a public note for other users to see.  
@@ -30,4 +31,8 @@ This route is where any user (logged in or not) may query the USGS api for any c
 
 ### Local Environment
 
-As a prerequisite, set up a .ENV file with a JWT_KEY.
+As a prerequisite, set up the .ENV file with a JWT_KEY so a token can be created to enable user authentication.
+
+### Documentation
+
+QuakeBook uses ApiDoc.js to create client-side documentation for our API here:
