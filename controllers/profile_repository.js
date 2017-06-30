@@ -62,7 +62,7 @@ class Profile {
     return knex('saved_earthquakes')
       .del()
       .where({event_id, user_id})
-      .returning('*');
+      .returning(['event_id']);
   }
 
   // return all public notes from a users profile
@@ -123,10 +123,10 @@ class Profile {
 
   // delete a poi for a user
 
-  deletePOI(id) {
+  deletePOI(id, user_id) {
     return knex('points_of_interest')
       .del()
-      .where({ id })
+      .where({ id, user_id })
       .returning('*');
   }
 

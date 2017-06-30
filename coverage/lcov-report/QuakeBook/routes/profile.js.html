@@ -1,0 +1,2888 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for QuakeBook/routes/profile.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">QuakeBook/routes/</a> profile.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">72.69% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>173/238</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">76.19% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>64/84</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">72.69% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>173/238</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909
+910
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
+936
+937
+938
+939
+940
+941
+942</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
+&nbsp;
+const express       = require('express');
+const router        = express.Router();
+const jwt           = require('jsonwebtoken');
+const env           = require('dotenv');
+const bcrypt        = require('bcrypt');
+const checkForToken = require('./helpers').checkForToken;
+const verifyUser    = require('./helpers').verifyUser;
+const ProfileRepo   = require('../controllers/profile_repository');
+&nbsp;
+/**
+* @api {post} /profile/login  Authenticate existing user to the site.
+* @apiName UserLogin
+* @apiGroup Profile
+*
+* @apiParam {String} email              User's email
+* @apiParam {String} password           User's password
+*
+* @apiSuccess {Integer} id              ID of the note.
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 204 NO CONTENT
+*
+*
+*
+*
+* @apiError UserNotFound The note was not found.
+* @apiErrorExample {text} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*
+*     Not Found
+*
+*/
+router.post('/login', (req, res) =&gt; {
+  const repo      = new ProfileRepo();
+  const email     = req.body.email;
+  const password  = req.body.password;
+  var user_id;
+&nbsp;
+  repo.getHashedPassword(email)
+    .then((resolved) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(resolved === undefined){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(404).send(`Not Found`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+      user_id = resolved.id;
+      return bcrypt.compare(password, resolved.hashed_password);
+    })
+    .then((isMatched) =&gt; {
+&nbsp;
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(!isMatched){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(403).send(`Not Authorized`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+      let payload = {
+  	    iss: 'jwt_lesson_app',
+  	    sub: {
+  	      user_id: user_id
+  	    },
+  	    exp: Math.floor(Date.now() / 1000) + (60 * 60),
+  	  };
+&nbsp;
+      let token = jwt.sign(payload, process.env.JWT_KEY);
+&nbsp;
+      res.cookie('token', token, {httpOnly: true });
+      res.setHeader('Content-Type', 'application/json');
+      res.status(204).send(true);
+      return;
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >      res.status(404).send(err);</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    });
+&nbsp;
+});
+&nbsp;
+/**
+* @api {get} /profile   Get authenticated user's profile information
+* @apiName GetProfile
+* @apiGroup Profile
+*
+* @apiParam {Number} id                  User's unique ID from token
+*
+* @apiSuccess {String} name              User's name
+* @apiSuccess {String} email             User's email (account name)
+* @apiSuccess {Integer} timezone         Integer offset for user's timezone
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   {
+*     name: Oskar Fischinger,
+      email: ofischy@gmail.com,
+      timezone: 9
+*   }
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*
+*     User Not Found
+*
+*/
+router.get('/', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+&nbsp;
+  repo.getUserInfo(decoded.sub.user_id)
+    .then((userInfo) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(userInfo === undefined){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(404).send(`User Not Found`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.send(userInfo);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {put} /profile   Create new user profile
+* @apiName NewProfile
+* @apiGroup Profile
+*
+* @apiParam {String} name                  User's name
+* @apiParam {String} email                 User's unique email address
+* @apiParam {String} password              User's password
+* @apiParam {Number} timezone              User's timezone
+*
+* @apiSuccess {Integer} id                 New user's ID
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 201 CREATED
+*   {
+*     id: 55
+*   }
+*
+* @apiError NotValid The supplied user info was not valid.
+* @apiErrorExample {text} Invalid User Error:
+*     HTTP/1.1 400 Invalid Info
+*
+*     Invalid User Information
+*
+*/
+router.put('/', (req, res) =&gt; {
+&nbsp;
+  const repo = new ProfileRepo();
+&nbsp;
+  if(req.body === undefined || req.body.name === undefined || req.body.email === undefined || req.body.password === undefined || req.body.timezone === undefined){
+    res.setHeader('Content-Type', 'text/plain');
+    res.status(400).send(`Invalid User Information`);
+    return;
+  }
+&nbsp;
+  var user = {name: req.body.name
+            , email: req.body.email
+            , timezone: req.body.timezone};
+&nbsp;
+  bcrypt.hash(req.body.password, 12)
+  .then((hash) =&gt; {
+    user.hashed_password = hash;
+    return repo.addUser(user);
+  })
+  .then((addedUserId) =&gt; {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(addedUserId &lt; 0){
+<span class="cstat-no" title="statement not covered" >      res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >      res.status(400).send(`Invalid User Information`);</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+    res.status(201).send(addedUserId);
+  })
+  .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >    throw err;</span>
+  });
+});
+&nbsp;
+/**
+* @api {post} /profile    Update user profile information
+* @apiName UpdateProfile
+* @apiGroup Profile
+*
+* @apiParam {Number} id                  User's unique ID
+*
+* @apiSuccess {Integer} id               ID of the user.
+* @apiSuccess {String} name              User's name
+* @apiSuccess {String} email             User's email address
+* @apiSuccess {Integer} timezone         User's timezone
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   {
+*     id: 67,
+      name: Phil Hartman,
+      email: cavemanlawyer@mindspring.org,
+      timezone: 9
+*   }
+*
+* @apiError UserNotFound The user was not found.
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
+*/
+router.post('/', checkForToken, verifyUser, (req, res) =&gt; {
+&nbsp;
+  if(req.body === undefined || (req.body.name === undefined &amp;&amp; req.body.email === undefined &amp;&amp; req.body.timzone === undefined &amp;&amp; req.body.password === undefined)){
+    res.setHeader('Content-Type', 'text/plain');
+    res.status(400).send(`Invalid User Information`);
+    return;
+  }
+&nbsp;
+  let changes = {};
+  <span class="missing-if-branch" title="if path not taken" >I</span>if(req.body.name){
+<span class="cstat-no" title="statement not covered" >    changes.name = req.body.name;</span>
+  }
+  <span class="missing-if-branch" title="else path not taken" >E</span>if(req.body.email){
+    changes.email = req.body.email;
+  }
+  <span class="missing-if-branch" title="if path not taken" >I</span>if(req.body.timezone){
+<span class="cstat-no" title="statement not covered" >    changes.timezone = req.body.timezone;</span>
+  }
+&nbsp;
+  var returned_hash = Promise.resolve(false);
+  <span class="missing-if-branch" title="if path not taken" >I</span>if(req.body.password){
+<span class="cstat-no" title="statement not covered" >    returned_hash = bcrypt.hash(req.body.password, 12);</span>
+  }
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+&nbsp;
+  returned_hash
+    .then((resolved_password) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(resolved_password){
+<span class="cstat-no" title="statement not covered" >        changes.hashed_password = resolved_password;</span>
+      }
+      return repo.updateUser(decoded.sub.user_id, changes);
+    })
+    .then((updatedUser) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(updatedUser === undefined){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(400).send(`Invalid User Information`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+      res.send(updatedUser);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {delete} /profile    Deletes user profile
+* @apiName DeleteProfile
+* @apiGroup Profile
+*
+* @apiParam {Number} id                  User's unique ID
+*
+* @apiSuccess {Integer} id               ID of the User.
+* @apiSuccess {String} name              User's name
+* @apiSuccess {String} email             User's email
+* @apiSuccess {Integer} timezone         User's timezone
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   {
+*     id: 18,
+*     name: Helen Mirren,
+*     email: iwasinexcalliber@yahoo.com,
+*     timezone: 0
+*   }
+*
+* @apiError UserNotFound The user was not found.
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
+*/
+router.delete('/', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+&nbsp;
+  repo.deleteUser(decoded.sub.user_id)
+    .then((deletedUser) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(deletedUser === undefined){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(400).send(`Invalid User Information`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+      res.cookie('token', '', {httpOnly: true });
+      res.send(deletedUser);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+&nbsp;
+});
+&nbsp;
+/**
+* @api {get} /profile/earthquakes   Return all earthquakes saved in profile
+* @apiName GetProfileEarthquakes
+* @apiGroup Profile
+*
+* @apiParam {Number} id                  User's unique ID
+*
+* @apiSuccess {Number} id               ID of the note.
+* @apiSuccess {String} date_time               ID of the note.
+* @apiSuccess {Number} tz_offset               ID of the note.
+* @apiSuccess {String} last_updated               ID of the note.
+* @apiSuccess {String} lat               ID of the note.
+* @apiSuccess {String} long               ID of the note.
+* @apiSuccess {Number} depth               ID of the note.
+* @apiSuccess {Number} magnitude               ID of the note.
+* @apiSuccess {String} description               ID of the note.
+* @apiSuccess {String} usgs_id               ID of the note.
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   [
+*    {
+*     id: ,
+*     date_time: ,
+*     tz_offset: ,
+*     last_updated: ,
+*     lat: ,
+*     long: ,
+*     depth: ,
+*     magnitude: ,
+*     description: ,
+*     usgs_id:
+*    }
+*   ]
+*
+* @apiError EventNotFound The earthquake event was not found.
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
+*/
+router.get('/earthquakes', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+&nbsp;
+  repo.queryEvents(decoded.sub.user_id)
+    .then((returnedEvents) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(returnedEvents === undefined || returnedEvents.length &lt; 0){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(400).send(`Invalid User Information`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+&nbsp;
+      res.send(returnedEvents);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {put} /profile/earthquakes     Add existing event to profile's saved list
+* @apiName SaveProfileEarthquake
+* @apiGroup Profile
+*
+* @apiParam {Number} user_id          User's unique ID from token
+* @apiParam {Number} event_id         Earthquake event's unique ID
+*
+* @apiSuccess {Number} user_id          User's ID
+* @apiSuccess {Number} event_id         Earthquake event's id
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 20 CREATED
+*   {
+*
+*   }
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
+*/
+router.put('/earthquakes/:id', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+&nbsp;
+  repo.addEvent(req.params.id, decoded.sub.user_id)
+    .then((returned) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(returned === undefined){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(400).send(`Invalid User Information`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+      res.status(201).send(returned);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {delete} /profile/earthquakes/:id
+* @apiName RemoveProfileEarthquake
+* @apiGroup Profile
+*
+* @apiParam {Number} id                  User's unique ID
+*
+* @apiSuccess {Integer} id               ID of the note.
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   {
+*     id:3
+*   }
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*
+*     Not Found
+*
+*/
+router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+  const token = req.cookies.token;
+&nbsp;
+  repo.deleteEvent(req.params.id, decoded.sub.user_id)
+    .then((returned) =&gt; {
+      if(returned.length!==0){
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
+      } else <span class="missing-if-branch" title="else path not taken" >E</span>if (returned.length === 0) {
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(404).send(`Not Found`);
+        return;
+      }
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {get} /profile/notes              Return all saved notes in a users profile
+* @apiName GetProfileNotes
+* @apiGroup Profile
+*
+* @apiParam {Number} id                  User's unique ID
+*
+* @apiSuccess {Number} id               ID of the note.
+* @apiSuccess {Number} user_id               ID of the user.
+* @apiSuccess {Number} event_id               ID of the eventy.
+* @apiSuccess {String} note_date_time         DateTime note was created.
+* @apiSuccess {String} text               Content of note
+* @apiSuccess {Boolean} is_private        Whether note is publically viewable.
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   [
+*    {
+*     id: 11,
+*     user_id: 4,
+*     event_id: 88,
+*     note_date_time: '2017-06-27 17:18:28.506846-07',
+*     text: 'I survived this monster!',
+*     is_private: false
+*    }
+*   ]
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
+*/
+router.get('/notes', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+&nbsp;
+  repo.queryNotesByUser(decoded.sub.user_id)
+    .then((returnedNotes) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(returnedNotes === undefined || returnedNotes.length &lt; 0){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(400).send(`Invalid User Information`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+&nbsp;
+      res.send(returnedNotes);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {put} /profile/notes   Create new note, add to users profile.
+* @apiName NewProfileNote
+* @apiGroup Profile
+*
+* @apiParam {Number} user_id    User's unique ID
+* @apiParam {Number} event_id   ID for earthquake event to which this note is attached
+* @apiParam {String} text       Note text
+* @apiParam {Boolean} is_private  Whether note is public or private
+*
+* @apiSuccess {Integer} id      ID of the note.
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 201 CREATED
+*   {
+*     id: 14,
+*     user_id: 8,
+*     event_id: 4,
+*     note_date_time: '2017-06-27 17:18:28.506846-07',
+*     text: 'I survived this monster!',
+*     is_private: false
+*   }
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Bad Requesrt Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid Note Values
+*
+*/
+router.put('/notes', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+&nbsp;
+&nbsp;
+  if(req.body === undefined || req.body.event_id === undefined || req.body.text === undefined || req.body.is_private === undefined){
+    res.setHeader('Content-Type', 'text/plain');
+    res.status(400).send(`Invalid Note Values`);
+    return;
+  }
+&nbsp;
+  var note = {event_id: req.body.event_id,
+              text: req.body.text,
+              is_private: req.body.is_private};
+&nbsp;
+  repo.addNote(note, decoded.sub.user_id)
+    .then((returned) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(returned === undefined){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(400).send(`Invalid Note Values`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+&nbsp;
+      res.status(201).send(returned);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {delete} /profile/notes          Delete note with specific id saved in users profile
+* @apiName RemoveProfileNote
+* @apiGroup Profile
+*
+* @apiParam {Number} id                  User's unique ID
+*
+* @apiSuccess {Number} id               ID of the note.
+* @apiSuccess {Number} user_id               ID of the user.
+* @apiSuccess {Number} event_id               ID of the eventy.
+* @apiSuccess {String} note_date_time         DateTime note was created.
+* @apiSuccess {String} text               Content of note
+* @apiSuccess {Boolean} is_private        Whether note is publically viewable.
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*    {
+*     id: 11,
+*     user_id: 4,
+*     event_id: 88,
+*     note_date_time: '2017-06-27 17:18:28.506846-07',
+*     text: 'I survived this monster!',
+*     is_private: false
+*    }
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*
+*     Not Found
+*
+*/
+router.delete('/notes/:id', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+  const token = req.cookies.token;
+&nbsp;
+&nbsp;
+  repo.deleteNote(req.params.id)
+    .then((returned) =&gt; {
+      if(returned.length === 0){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(404).send(`Not Found`);
+        return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
+      }
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {get} /profile/friends
+* @apiName GetProfileFriends
+* @apiGroup Profile
+*
+* @apiParam {Number} id                  User's unique ID
+*
+* @apiSuccess {Integer} user_from               ID of the current user.
+* @apiSuccess {Integer} user_to               ID of the user's friend.
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   [
+*    {
+*     user_from: 1,
+*     user_to: 4
+*    },
+*    {
+*     user_from: 1,
+*     user_to: 6
+*    }
+*   ]
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
+*/
+router.get('/friends', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+&nbsp;
+  repo.queryFriends(decoded.sub.user_id)
+    .then((returnedFriends) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(returnedFriends === undefined || returnedFriends.length &lt; 0){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(400).send(`Invalid User Information`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+&nbsp;
+      res.send(returnedFriends);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {put} /profile/friends
+* @apiName NewProfileFriend
+* @apiGroup Profile
+*
+* @apiParam {Number} id                  User's unique ID
+* @apiParam {Number} user_id             Other User ID to add as Friend
+*
+* @apiSuccess {Integer} user_from               ID of the current user.
+* @apiSuccess {Integer} user_to               ID of the user's friend.
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 201 CREATED
+*    {
+*     user_from: 1,
+*     user_to: 4
+*    }
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
+*/
+router.put('/friends/:id', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+&nbsp;
+  repo.addFriend(decoded.sub.user_id, req.params.id)
+    .then((returned) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(returned === undefined){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(400).send(`Invalid User Information`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+      res.status(201).send(returned);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {delete} /profile/friends  Remove a friend from user's list.
+* @apiName RemoveProfileFriend
+* @apiGroup Profile
+*
+* @apiParam {Number} id                  User's unique ID
+*
+* @apiSuccess {Integer} user_from               ID of the current user.
+* @apiSuccess {Integer} user_to               ID of the user's friend.
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   {
+*     user_from: 1,
+*     user_to: 4
+*    }
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*
+*     Not Found
+*
+*/
+router.delete('/friends/:id', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+  const token = req.cookies.token;
+&nbsp;
+&nbsp;
+  repo.deleteFriend(decoded.sub.user_id, req.params.id)
+    .then((returned) =&gt; {
+      if(returned.length === 0){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(404).send(`Not Found`);
+        return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
+      }
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {get} /profile/poi               Get
+* @apiName GetProfilePOIs
+* @apiGroup Profile
+*
+* @apiParam {Number} id                  User's unique ID
+*
+* @apiSuccess {Number} user_id           User's unique ID
+* @apiSuccess {String} lat               location's latitude
+* @apiSuccess {String} long              location's longitude
+* @apiSuccess {Boolean} is_home          Whether location is user's home loc
+* @apiSuccess {String} label             Description of location
+* @apiSuccess {Number} max_radius        Search radius (km)
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   {
+*     id: 1,
+*     user_id: 2,
+*     lat: 47.6686667,
+*     long: -122.4905,
+*     is_home: false,
+*     label: The Eiffel Tower,
+*     max_radius: 200
+*   }
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 400 Bad Request
+*
+*     Invalid User Information
+*
+*/
+router.get('/poi', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+&nbsp;
+  repo.queryPOIs(decoded.sub.user_id)
+    .then((returnedPOIs) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(returnedPOIs === undefined || returnedPOIs.length &lt; 0){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(400).send(`Invalid User Information`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      }
+&nbsp;
+      res.send(returnedPOIs);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {put} /profile/poi
+* @apiName NewProfilePOI
+* @apiGroup Profile
+*
+* @apiParam {Number} user_id           User's unique ID
+* @apiParam {String} lat               location's latitude
+* @apiParam {String} long              location's longitude
+* @apiParam {Boolean} is_home          Whether location is user's home loc
+* @apiParam {String} label             Description of location
+* @apiParam {Number} max_radius        Search radius (km)
+*
+* @apiSuccess {Number} user_id           User's unique ID
+* @apiSuccess {String} lat               location's latitude
+* @apiSuccess {String} long              location's longitude
+* @apiSuccess {Boolean} is_home          Whether location is user's home loc
+* @apiSuccess {String} label             Description of location
+* @apiSuccess {Number} max_radius        Search radius (km)
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 201 CREATED
+*   {
+*     id: 1,
+*     user_id: 2,
+*     lat: 47.6686667,
+*     long: -122.4905,
+*     is_home: false,
+*     label: The Eiffel Tower,
+*     max_radius: 200
+*   }
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Bad Request Error:
+*     HTTP/1.1 404 Bad Request
+*
+*     Invalid POI Values
+*
+*/
+router.put('/poi', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+&nbsp;
+  if(req.body === undefined || req.body.lat === undefined || req.body.long === undefined || req.body.is_home === undefined || req.body.label === undefined || req.body.max_radius === undefined) {
+    res.setHeader('Content-Type', 'text/plain');
+    res.status(400).send(`Invalid POI Values`);
+    return;
+  }
+&nbsp;
+  var poi = {lat: req.body.lat,
+             long: req.body.long,
+             is_home: req.body.is_home,
+             label: req.body.label,
+             max_radius: req.body.max_radius};
+&nbsp;
+  repo.addPOI(poi, decoded.sub.user_id)
+    .then((returned) =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if(returned === undefined){
+<span class="cstat-no" title="statement not covered" >        res.setHeader('Content-Type', 'text/plain');</span>
+<span class="cstat-no" title="statement not covered" >        res.status(400).send(`Invalid Note Values`);</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+      } else {
+        res.status(201).send(returned);
+      }
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+/**
+* @api {delete} /profile/poi/:id
+* @apiName RemoveProfilePOI
+* @apiGroup Profile
+&nbsp;
+* @apiParam {Number} user_id             User's unique ID
+* @apiParam {Number} id                  Point of Interest unique ID
+*
+* @apiSuccess {Number} poi_id            Point of Interest unique ID
+* @apiSuccess {String} lat               location's latitude
+* @apiSuccess {String} long              location's longitude
+* @apiSuccess {Boolean} is_home          Whether location is user's home loc
+* @apiSuccess {String} label             Description of location
+* @apiSuccess {Number} max_radius        Search radius (km)
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   {
+*     id: 1,
+*     user_id: 2,
+*     lat: 47.6686667,
+*     long: -122.4905,
+*     is_home: false,
+*     label: The Eiffel Tower,
+*     max_radius: 200
+*   }
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {text} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*
+*     Not Found
+*
+*/
+router.delete('/poi/:id', checkForToken, verifyUser, (req, res) =&gt; {
+  const repo    = new ProfileRepo();
+  const decoded = jwt.decode(req.cookies.token);
+  const token = req.cookies.token;
+&nbsp;
+&nbsp;
+  repo.deletePOI(req.params.id, decoded.sub.user_id)
+    .then((returned) =&gt; {
+      if(returned.length === 0){
+        res.setHeader('Content-Type', 'text/plain');
+        res.status(404).send(`Not Found`);
+        return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
+      }
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      throw err;</span>
+    });
+});
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+module.exports = router;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 30 2017 00:24:55 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

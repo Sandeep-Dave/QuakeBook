@@ -115,13 +115,13 @@ suite('profile routes', addDatabaseHooks(() => {
     .end(done);
   });
 
-  test('DELETE /profile/earthquake/4', (done) => {
+  test('DELETE /profile/earthquake/1', (done) => {
     agent
-    .del('/profile/earthquake/4')
+    .del('/profile/earthquake/1')
     .set('Accept', 'application/json')
     .expect('set-cookie', /token=[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+; Path=\/;.+HttpOnly/)
+    .expect([{'event_id':1}], done)
     .expect(200)
-    .end(done);
   });
 
   test('GET /profile/notes with token', (done) => {
@@ -201,7 +201,7 @@ suite('profile routes', addDatabaseHooks(() => {
 
   test('DELETE /profile/friends with token', (done) => {
     agent
-    .del('/profile/friends/4')
+    .del('/profile/friends/2')
     .set('Accept', 'application/json')
     .expect('set-cookie', /token=[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+; Path=\/;.+HttpOnly/)
     .expect(200)

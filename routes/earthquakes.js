@@ -6,7 +6,7 @@ const router  = express.Router();
 
 
 /**
-* @api {get} /earthquakes/
+* @api {get} /earthquakes/              Get earthquake information based on specific USGS ID from USGS API
 * @apiVersion 1.0.0
 * @apiName GetEarthquakeId
 * @apiGroup Earthquakes
@@ -61,13 +61,11 @@ router.get('/:id', (req, res) => {
 })
 
 /**
-* @api {get} /earthquakes/
+* @api {get} /earthquakes/                   Get Earthquake information from USGS API based on a range of optional parameters you can pass in. 
 * @apiVersion 1.0.0
 * @apiName GetEarthquakesByParameters
 * @apiGroup Earthquakes
 *
-  // latitude, longitude, starttime, endtime, minmagnitude, maxmagnitude, maxradiuskm, limit
-
 * @apiParam {String} Latitude            Latitude of event
 * @apiParam {String} Longitude           Longitude of event
 * @apiParam {String} Starttime           Specified start time in Date/Time format

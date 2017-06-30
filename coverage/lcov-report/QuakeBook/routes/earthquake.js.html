@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for QuakeBook/routes/earthquake.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">QuakeBook/routes/</a> earthquake.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.31% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>36/39</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>18/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.31% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>36/39</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict'
+&nbsp;
+const express    = require('express');
+const knex       = require('../knex');
+const Earthquake  = require('../controllers/earthquake_repository');
+const router     = express.Router();
+&nbsp;
+&nbsp;
+/**
+* @api {get} /earthquake/:id/notes  Request public notes posted about a specific earthquake
+* @apiVersion 1.0.0
+* @apiName GetNotesByEarthquakeId
+* @apiGroup Earthquake
+*
+* @apiParam {Number} id                  Earthquake's unique ID
+*
+* @apiSuccess {Number} id                ID of the note.
+* @apiSuccess {Number} user_id           ID of the user who wrote the note.
+* @apiSuccess {Number} event_id          ID of the event the note was about.
+* @apiSuccess {String} note_date_time    Date and time the note was created.
+* @apiSuccess {String} text              Text of the note.
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   {
+*   id: 3,
+*   user_id: 3,
+*   event_id: 3,
+*   note_date_time: 2017-06-23T13:42:24.000Z,
+*   text: 'I survived this monster!'
+*   }
+*
+* @apiError NoteNotFound The note was not found.
+* @apiErrorExample {json} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*     {
+*       "error": "NoteNotFound"
+*     }
+*/
+&nbsp;
+router.get('/:id/notes', (req, res) =&gt; {
+  let earthquake = new Earthquake();
+  let id = req.params.id;
+  let promiseFromQuery = earthquake.notesById(id);
+&nbsp;
+  promiseFromQuery
+    .then(notes =&gt; {
+      if(!notes || notes.length===0) {
+        res.sendStatus(404);
+        return;
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.send(notes);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      res.status(500).send(err);</span>
+    });
+});
+&nbsp;
+/**
+* @api {get} /earthquake/:id  Request information about a specific earthquake
+* @apiVersion 1.0.0
+* @apiName GetEarthquakeById
+* @apiGroup Earthquake
+*
+* @apiParam {Number} id                  Earthquake's unique ID
+*
+* @apiSuccess {Number} id                ID of the earthquake event.
+* @apiSuccess {String} date_time         Date/time of event.
+* @apiSuccess {Number} tz_offset         Timezone offset from UTC.
+* @apiSuccess {String} last_updated      Date/time when event was most recently updated.
+* @apiSuccess {String} lat               Latitude of event.
+* @apiSuccess {String} long              Longitude of event.
+* @apiSuccess {Number} depth             Depth of event in km.
+* @apiSuccess {Number} magnitude         Magnitude of event.
+* @apiSuccess {String} description       Brief description of event.
+* @apiSuccess {String} usgs_id           USGS ID for event
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*  {
+*  id: 4,
+*  description: "5km NNE of Bainbridge Island, Washington",
+*  date_time: 2017-06-23T13:42:24.000Z,
+*  last_updated: 2017-06-23T14:42:24.000Z,
+*  tz_offset: -480,
+*  magnitude: 1.1,
+*  long:  '-122.4905',
+*  lat:  '47.6686667',
+*  depth:  4.58,
+*  usgs_id: "uw61276557"
+*  }
+*
+* @apiError EventNotFound The earthquake event was not found.
+* @apiErrorExample {json} Not Found Error:
+*     HTTP/1.1 404 Not Found
+*     {
+*       "error": "EventNotFound"
+*     }
+*/
+&nbsp;
+router.get('/:id', (req, res) =&gt; {
+  let earthquake = new Earthquake();
+  let id = req.params.id;
+  let promiseFromQuery = earthquake.earthquakeById(id);
+  promiseFromQuery
+    .then(earthquake =&gt; {
+      // console.log('****', earthquake);
+      if(!earthquake){
+        res.sendStatus(404);
+        return;
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.send(earthquake);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      res.status(500).send(err);</span>
+    });
+});
+&nbsp;
+/**
+* @api {put} /profile                    Add new earthquake event to the database
+* @apiName AddEarthquake
+* @apiGroup Earthquake
+*
+* @apiParam {Number} id                  Earthquake's unique ID
+*
+* @apiSuccess {Number} id                ID of the earthquake event.
+* @apiSuccess {String} date_time         Date/time of event.
+* @apiSuccess {Number} tz_offset         Timezone offset from UTC.
+* @apiSuccess {String} last_updated      Date/time when event was most recently updated.
+* @apiSuccess {String} lat               Latitude of event.
+* @apiSuccess {String} long              Longitude of event.
+* @apiSuccess {Number} depth             Depth of event in km.
+* @apiSuccess {Number} magnitude         Magnitude of event.
+* @apiSuccess {String} description       Brief description of event.
+* @apiSuccess {String} usgs_id           USGS ID for event
+*
+*
+*
+* @apiSuccessExample Success-Response:
+*   HTTP/1.1 200 OK
+*   {
+*     id: 55
+*   }
+*
+* @apiError NotValid The supplied user info was not valid.
+* @apiErrorExample {json} Not Valid Error:
+*     HTTP/1.1 400 Invalid Info
+*     {
+*       "error": "Invalid information"
+*     }
+*/
+&nbsp;
+router.put('/', (req, res) =&gt; {
+&nbsp;
+  let earthquake = new Earthquake();
+&nbsp;
+  if(req.body===undefined || req.body.date_time===undefined || req.body.tz_offset===undefined || req.body.last_updated===undefined || req.body.lat ===undefined || req.body.long === undefined|| req.body.depth === undefined || req.body.magnitude === undefined || req.body.description === undefined|| req.body.usgs_id === undefined ) {
+    res.setHeader('Content-Type', 'plain/text');
+    res.status(400).send(`Invalid Earthquake Information`);
+    return;
+  }
+&nbsp;
+  var event = {date_time: req.body.date_time,
+               tz_offset: req.body.tz_offset,
+               last_updated: req.body.last_updated,
+               lat: req.body.lat,
+               long: req.body.long,
+               depth: req.body.depth,
+               magnitude: req.body.magnitude,
+               description: req.body.description,
+               usgs_id: req.body.usgs_id};
+&nbsp;
+  let promiseFromQuery = earthquake.addEarthquake(event);
+&nbsp;
+  promiseFromQuery
+    .then(event =&gt; {
+      res.setHeader('Content-Type', 'application/json')
+      return res.status(201).send(event);
+    })
+    .catch(err =&gt; {
+<span class="cstat-no" title="statement not covered" >      res.status(500).send(err);</span>
+    });
+});
+&nbsp;
+module.exports = router;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 30 2017 00:24:55 GMT-0700 (PDT)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

@@ -107,8 +107,7 @@ router.post('/login', (req, res) => {
 *
 */
 router.get('/', checkForToken, verifyUser, (req, res) => {
-  const repo    = new ProfileRepo();
-  // console.log('****',req.cookies);
+  const repo = new ProfileRepo();
   const decoded = jwt.decode(req.cookies.token);
 
   repo.getUserInfo(decoded.sub.user_id)
@@ -371,8 +370,12 @@ router.get('/earthquakes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
+<<<<<<< HEAD
 * @api {put} /profile/earthquakes  Add existing event to profile's saved list
 * @apiVersion 1.0.0
+=======
+* @api {put} /profile/earthquakes     Add existing event to profile's saved list
+>>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName SaveProfileEarthquake
 * @apiGroup Profile
 *
@@ -443,13 +446,14 @@ router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
 
   repo.deleteEvent(req.params.id, decoded.sub.user_id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length!==0){
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
+      } else if (returned.length === 0) {
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;
@@ -457,8 +461,12 @@ router.delete('/earthquake/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
+<<<<<<< HEAD
 * @api {get} /profile/notes Get all user notes.
 * @apiVersion 1.0.0
+=======
+* @api {get} /profile/notes              Return all saved notes in a users profile
+>>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName GetProfileNotes
 * @apiGroup Profile
 *
@@ -510,8 +518,12 @@ router.get('/notes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
+<<<<<<< HEAD
 * @api {put} /profile/notes   Create new note.
 * @apiVersion 1.0.0
+=======
+* @api {put} /profile/notes   Create new note, add to users profile.
+>>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName NewProfileNote
 * @apiGroup Profile
 *
@@ -571,8 +583,12 @@ router.put('/notes', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
+<<<<<<< HEAD
 * @api {delete} /profile/notes  Delete one of user's own notes.
 * @apiVersion 1.0.0
+=======
+* @api {delete} /profile/notes          Delete note with specific id saved in users profile
+>>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName RemoveProfileNote
 * @apiGroup Profile
 *
@@ -611,13 +627,14 @@ router.delete('/notes/:id', checkForToken, verifyUser, (req, res) => {
 
   repo.deleteNote(req.params.id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length === 0){
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;
@@ -751,13 +768,14 @@ router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
 
   repo.deleteFriend(decoded.sub.user_id, req.params.id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length === 0){
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;
@@ -765,8 +783,12 @@ router.delete('/friends/:id', checkForToken, verifyUser, (req, res) => {
 });
 
 /**
+<<<<<<< HEAD
 * @api {get} /profile/poi   Get list of user's Points-of-Interest.
 * @apiVersion 1.0.0
+=======
+* @api {get} /profile/poi               Get
+>>>>>>> 805df7d4b243f7eff383c5819a55c75195d205b0
 * @apiName GetProfilePOIs
 * @apiGroup Profile
 *
@@ -878,8 +900,9 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
         res.setHeader('Content-Type', 'text/plain');
         res.status(400).send(`Invalid Note Values`);
         return;
+      } else {
+        res.status(201).send(returned);
       }
-      res.status(201).send(returned);
     })
     .catch(err => {
       throw err;
@@ -891,10 +914,11 @@ router.put('/poi', checkForToken, verifyUser, (req, res) => {
 * @apiVersion 1.0.0
 * @apiName RemoveProfilePOI
 * @apiGroup Profile
+
+* @apiParam {Number} user_id             User's unique ID
+* @apiParam {Number} id                  Point of Interest unique ID
 *
-* @apiParam {Number} id                  User's unique ID
-*
-* @apiSuccess {Number} user_id           User's unique ID
+* @apiSuccess {Number} poi_id            Point of Interest unique ID
 * @apiSuccess {String} lat               location's latitude
 * @apiSuccess {String} long              location's longitude
 * @apiSuccess {Boolean} is_home          Whether location is user's home loc
@@ -926,15 +950,16 @@ router.delete('/poi/:id', checkForToken, verifyUser, (req, res) => {
   const token = req.cookies.token;
 
 
-  repo.deletePOI(req.params.id)
+  repo.deletePOI(req.params.id, decoded.sub.user_id)
     .then((returned) => {
-      if(returned === undefined){
+      if(returned.length === 0){
         res.setHeader('Content-Type', 'text/plain');
         res.status(404).send(`Not Found`);
         return;
+      } else {
+        res.cookie('token', token, {httpOnly: true });
+        res.send(returned);
       }
-      res.cookie('token', token, {httpOnly: true });
-      res.send(returned);
     })
     .catch(err => {
       throw err;
