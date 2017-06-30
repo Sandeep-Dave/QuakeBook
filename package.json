@@ -12,7 +12,8 @@
     "dev"     : "nodemon server.js",
     "start"   : "node server.js",
     "coverage": "istanbul cover _mocha -- -R spec",
-    "api"     : "apidoc -i routes/ -o public/"
+    "api"     : "apidoc -i routes/ -o public/",
+    "heroku-postbuild": "knex migrate:latest"
   },
   "repository": {
     "type": "git",
